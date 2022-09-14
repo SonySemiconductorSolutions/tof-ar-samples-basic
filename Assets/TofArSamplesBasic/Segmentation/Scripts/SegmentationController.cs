@@ -12,6 +12,7 @@ using TofAr.V0.Segmentation.Sky;
 using TofAr.V0.Segmentation.Human;
 using TofArSettings.Segmentation;
 using System.Collections;
+using TofAr.V0.Segmentation;
 
 namespace TofArSamples.Segmentation
 {
@@ -53,16 +54,21 @@ namespace TofArSamples.Segmentation
 
         private void OnEnable()
         {
-            TofArColorManager.OnStreamStarted += TofArColorManager_OnStreamStarted;
+            TofArColorManager.OnStreamStarted += OnColorStreamStarted;
+            TofArSegmentationManager.OnStreamStarted += OnSegmentationStreamStarted;
+            TofArSegmentationManager.OnStreamStopped += OnSegmentationStreamStopped;
             humanSegmentationController.OnHumanChange += OnHumanChange;
             skySegmentationController.OnSkyChange += OnSkyChange;
             humanSegmentationController.OnNotHumanChange += OnNotHumanChange;
             skySegmentationController.OnNotSkyChange += OnNotSkyChange;
         }
 
+
         private void OnDisable()
         {
-            TofArColorManager.OnStreamStarted -= TofArColorManager_OnStreamStarted;
+            TofArColorManager.OnStreamStarted -= OnColorStreamStarted;
+            TofArSegmentationManager.OnStreamStarted -= OnSegmentationStreamStarted;
+            TofArSegmentationManager.OnStreamStopped -= OnSegmentationStreamStopped;
             humanSegmentationController.OnHumanChange -= OnHumanChange;
             skySegmentationController.OnSkyChange -= OnSkyChange;
             humanSegmentationController.OnNotHumanChange -= OnNotHumanChange;
@@ -77,7 +83,7 @@ namespace TofArSamples.Segmentation
             this.segmentationMaskMaterial.SetFloat("_OffsetU", 0f);
         }
 
-        private void TofArColorManager_OnStreamStarted(object sender, Texture2D colorTexture)
+        private void OnColorStreamStarted(object sender, Texture2D colorTexture)
         {
             var resolutionProperty = TofAr.V0.Color.TofArColorManager.Instance.GetProperty<TofAr.V0.Color.ResolutionProperty>();
 
@@ -119,13 +125,23 @@ namespace TofArSamples.Segmentation
             this.segmentationMaskMaterial.SetFloat("_OffsetU", uOffset);
         }
 
+        private void OnSegmentationStreamStarted(object sender)
+        {
+            this.segmentationMaskMaterial.SetTexture("_MaskTexHuman", this.humanDetector.MaskTexture);
+            this.segmentationMaskMaterial.SetTexture("_MaskTexSky", this.skyDetector.MaskTexture);
+        }
+        private void OnSegmentationStreamStopped(object sender)
+        {
+            this.segmentationMaskMaterial.SetTexture("_MaskTexHuman", null);
+            this.segmentationMaskMaterial.SetTexture("_MaskTexSky", null);
+        }
+
         private IEnumerator Start()
         {
             this.context = SynchronizationContext.Current;
             yield return new WaitForEndOfFrame();
 
-            this.segmentationMaskMaterial.SetTexture("_MaskTexHuman", this.humanDetector.MaskTexture);
-            this.segmentationMaskMaterial.SetTexture("_MaskTexSky", this.skyDetector.MaskTexture);
+            
 
             if (AutoStartHuman || AutoStartSky)
             {

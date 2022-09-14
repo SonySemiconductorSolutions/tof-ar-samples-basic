@@ -134,12 +134,15 @@ namespace TofArSamples.Hand
             itemOffsetX = settings.AddItem("Offset X", HandModelController.OffsetMin,
                 HandModelController.OffsetMax, HandModelController.OffsetStep,
                 offset.x, ChangeOffsetX);
+            itemOffsetX.IsNotifyImmediately = true;
             itemOffsetY = settings.AddItem("Offset Y", HandModelController.OffsetMin,
                 HandModelController.OffsetMax, HandModelController.OffsetStep,
                 offset.y, ChangeOffsetY);
+            itemOffsetY.IsNotifyImmediately = true;
             itemOffsetZ = settings.AddItem("Offset Z", HandModelController.OffsetMin,
                 HandModelController.OffsetMax, HandModelController.OffsetStep,
                 offset.z, ChangeOffsetZ);
+            itemOffsetZ.IsNotifyImmediately = true;
 
             settings.AddItem("Reset Offset", ResetOffset);
 
@@ -241,6 +244,7 @@ namespace TofArSamples.Hand
             itemScale = settings.AddItem("Scale", HandModelController.ScaleMin,
                 HandModelController.ScaleMax, HandModelController.ScaleStep,
                 scale, ChangeScale);
+            itemScale.IsNotifyImmediately = true;
 
             settings.AddItem("Reset Scale", ResetScale);
 

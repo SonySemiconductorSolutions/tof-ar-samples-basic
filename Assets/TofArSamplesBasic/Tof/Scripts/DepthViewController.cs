@@ -114,5 +114,20 @@ namespace TofArSamples.Tof
         {
             return 1;
         }
+
+        protected override Vector2 GetAdjustedSize()
+        {
+            var currentResolution = TofArTofManager.Instance.GetProperty<Camera2ConfigurationProperty>();
+
+            float defWidth = defaultImgSize.x;
+
+            float ratio = (float)currentResolution.width / currentResolution.height;
+
+            int width = (int)(defWidth);
+            int height = (int)(defWidth / ratio);
+
+            return new Vector2(width, height);
+
+        }
     }
 }

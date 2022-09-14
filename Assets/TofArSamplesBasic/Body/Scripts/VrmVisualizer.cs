@@ -118,6 +118,24 @@ namespace TofArSamples.Body
             this.widthVrm = ((anim.GetBoneTransform(HumanBodyBones.LeftUpperArm).position - anim.GetBoneTransform(HumanBodyBones.Neck).position).magnitude + (anim.GetBoneTransform(HumanBodyBones.Neck).position - anim.GetBoneTransform(HumanBodyBones.RightUpperArm).position).magnitude);
         }
 
+        private void OnEnable()
+        {
+            TofArBodyManager.OnStreamStopped += OnBodyStreamStopped;
+        }
+
+        private void OnDisable()
+        {
+            TofArBodyManager.OnStreamStopped -= OnBodyStreamStopped;
+        }
+
+        private void OnBodyStreamStopped(object sender)
+        {
+            foreach (var rend in renderers)
+            {
+                rend.enabled = false;
+            }
+        }
+
         private bool isFullbody;
 
         private Vector3 rootPosition = Vector3.zero;

@@ -122,6 +122,7 @@ namespace TofArSamples.Tof
 
             pixelPosition = new Vector2(DepthWidth / 2, DepthHeight / 2);
 
+            TofArTofManager.OnStreamStarted += OnDepthStreamStarted;
             TofArTofManager.OnFrameArrived += Depth_FrameArrived;
             dataPath = Application.persistentDataPath + "/depthData";
             if (!System.IO.Directory.Exists(dataPath))
@@ -185,6 +186,7 @@ namespace TofArSamples.Tof
 
         private void OnDestroy()
         {
+            TofArTofManager.OnStreamStarted -= OnDepthStreamStarted;
             TofArTofManager.OnFrameArrived -= Depth_FrameArrived;
         }
 

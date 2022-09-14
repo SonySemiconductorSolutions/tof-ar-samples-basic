@@ -17,7 +17,7 @@ namespace TofArSamples.Face
         FaceModelController modelCtrl;
 
         //UI.ItemToggle itemSkeleton;
-        UI.ItemToggle itemFace;
+        UI.ItemToggle itemFace, itemGaze;
         UI.ItemSlider itemOffsetX, itemOffsetY, itemOffsetZ, itemScale;
 
         protected override void Awake()
@@ -54,6 +54,13 @@ namespace TofArSamples.Face
             {
                 itemFace.OnOff = onOff;
             };
+
+            itemGaze = settings.AddItem("Show Gaze", modelCtrl.IsShowGaze, ChangeGaze);
+
+            modelCtrl.OnChangeShowGaze += (onOff) =>
+            {
+                itemGaze.OnOff = onOff;
+            };
         }
 
         /// <summary>
@@ -66,6 +73,15 @@ namespace TofArSamples.Face
         }
 
         /// <summary>
+        /// Toggle Gaze
+        /// </summary>
+        /// <param name="onOff">Show/Hide</param>
+        void ChangeGaze(bool onOff)
+        {
+            modelCtrl.IsShowGaze = onOff;
+        }
+
+        /// <summary>
         /// Make Offset UI
         /// </summary>
         void MakeUIOffset()
@@ -74,12 +90,15 @@ namespace TofArSamples.Face
             itemOffsetX = settings.AddItem("Offset X", FaceModelController.OffsetMin,
                 FaceModelController.OffsetMax, FaceModelController.OffsetStep,
                 offset.x, ChangeOffsetX);
+            itemOffsetX.IsNotifyImmediately = true;
             itemOffsetY = settings.AddItem("Offset Y", FaceModelController.OffsetMin,
                 FaceModelController.OffsetMax, FaceModelController.OffsetStep,
                 offset.y, ChangeOffsetY);
+            itemOffsetY.IsNotifyImmediately = true;
             itemOffsetZ = settings.AddItem("Offset Z", FaceModelController.OffsetMin,
                 FaceModelController.OffsetMax, FaceModelController.OffsetStep,
                 offset.z, ChangeOffsetZ);
+            itemOffsetZ.IsNotifyImmediately = true;
 
             settings.AddItem("Reset Offset", ResetOffset);
             modelCtrl.OnChangeOffset += OnChangeOffset;
@@ -157,6 +176,7 @@ namespace TofArSamples.Face
             itemScale = settings.AddItem("Scale", FaceModelController.ScaleMin,
                 FaceModelController.ScaleMax, FaceModelController.ScaleStep,
                 scale, ChangeScale);
+            itemScale.IsNotifyImmediately = true;
 
             settings.AddItem("Reset Scale", ResetScale);
 

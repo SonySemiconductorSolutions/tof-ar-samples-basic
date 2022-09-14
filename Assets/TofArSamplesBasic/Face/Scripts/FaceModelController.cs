@@ -7,6 +7,7 @@
 
 using TofAr.V0.Face;
 using UnityEngine;
+using System.Collections;
 
 namespace TofArSamples.Face
 {
@@ -43,14 +44,61 @@ namespace TofArSamples.Face
             }
         }
 
-        private int FaceIndex { get => latestIndex < 1 ? faceModels.Length : latestIndex -1; }
-
-        int latestIndex = 0;
-
         public override event ChangeToggleEvent OnChangeShow;
+
+        public bool IsShowGaze
+        {
+            get
+            {
+                bool isShow = false;
+                for (int i = 0; i < faceModels.Length; i++)
+                {
+                    if (faceModels[i].ShowGaze)
+                    {
+                        isShow = true;
+                        break;
+                    }
+                }
+
+                return isShow;
+            }
+
+            set
+            {
+                if (IsShowGaze != value)
+                {
+                    for (int i = 0; i < faceModels.Length; i++)
+                    {
+                        faceModels[i].ShowGaze = value;
+                    }
+
+                    OnChangeShowGaze?.Invoke(IsShowGaze);
+                }
+            }
+        }
+
+        public event ChangeToggleEvent OnChangeShowGaze;
 
         FaceModel[] faceModels;
         Transform faceTransform;
+
+        private void OnEnable()
+        {
+            TofArFaceManager.OnStreamStarted += TofArFaceManager_OnStreamStarted;
+        }
+
+        private void OnDisable()
+        {
+            TofArFaceManager.OnStreamStarted -= TofArFaceManager_OnStreamStarted;
+        }
+
+        private void TofArFaceManager_OnStreamStarted(object sender)
+        {
+            if (TofArFaceManager.Instance.DetectorType != FaceDetectorType.Internal_ARKit)
+            {
+                IsShowGaze = false;
+            }
+        }
 
         protected override void Start()
         {
@@ -107,6 +155,5 @@ namespace TofArSamples.Face
             }
         }
 
-        //public event ChangeIndexEvent OnChangeIndex;
     }
 }

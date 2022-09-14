@@ -197,12 +197,15 @@ namespace TofArSamples.Hand
             itemOffsetX = meshViewSettings.GetSettings().AddItem("Offset X", HandModelController.OffsetMin,
                 HandModelController.OffsetMax, HandModelController.OffsetStep,
                 offset.x, ChangeOffsetX);
+            itemOffsetX.IsNotifyImmediately = true;
             itemOffsetY = meshViewSettings.GetSettings().AddItem("Offset Y", HandModelController.OffsetMin,
                 HandModelController.OffsetMax, HandModelController.OffsetStep,
                 offset.y, ChangeOffsetY);
+            itemOffsetY.IsNotifyImmediately = true;
             itemOffsetZ = meshViewSettings.GetSettings().AddItem("Offset Z", HandModelController.OffsetMin,
                 HandModelController.OffsetMax, HandModelController.OffsetStep,
                 offset.z, ChangeOffsetZ);
+            itemOffsetZ.IsNotifyImmediately = true;
 
             meshViewSettings.GetSettings().AddItem("Reset Offset", ResetOffset);
 
@@ -304,6 +307,7 @@ namespace TofArSamples.Hand
             itemScale = meshViewSettings.GetSettings().AddItem("Scale", HandModelController.ScaleMin,
                 HandModelController.ScaleMax, HandModelController.ScaleStep,
                 scale, ChangeScale);
+            itemScale.IsNotifyImmediately = true;
 
             meshViewSettings.GetSettings().AddItem("Reset Scale", ResetScale);
 

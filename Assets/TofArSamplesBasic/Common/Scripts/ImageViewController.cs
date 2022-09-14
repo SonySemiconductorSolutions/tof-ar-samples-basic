@@ -61,7 +61,9 @@ namespace TofArSamples
             }
         }
 
-        Mode mode = Mode.Hide;
+
+        private Mode mode = Mode.FullScreen;
+        private Mode lastActiveMode = Mode.FullScreen;
 
         /// <summary>
         /// View mode
@@ -73,11 +75,13 @@ namespace TofArSamples
             {
                 if (mode != value)
                 {
-                    var lastViewMode = mode;
-
+                    var previousViewMode = mode;
+                    
                     SetViewMode(value);
 
-                    if (lastViewMode == Mode.PictureInPicture)
+                    lastActiveMode = mode;
+
+                    if (previousViewMode == Mode.PictureInPicture)
                     {
                         if (minimizedViewPerAnchor[anchor] > 0)
                         {
@@ -215,13 +219,25 @@ namespace TofArSamples
         ScreenRotateController scRotCtrl;
         UI.Toolbar toolbar;
         RectTransform rawImgRt;
-        Vector2 defaultImgSize;
+        
+        protected Vector2 defaultImgSize;
 
         protected virtual void Awake()
         {
             // mgrCtrl is obtained in a child class
             scRotCtrl = FindObjectOfType<ScreenRotateController>();
             minimizePositionIndex = GetPositionIndex();
+        }
+
+        private void OnDestroy()
+        {
+            if (mode == Mode.PictureInPicture)
+            {
+                if (minimizedViewPerAnchor[anchor] > 0)
+                {
+                    minimizedViewPerAnchor[anchor]--;
+                }
+            }
         }
 
         protected virtual void OnEnable()
@@ -237,6 +253,8 @@ namespace TofArSamples
 
             ImageViewController.OnUpdateView += UpdateView;
 
+            ShowQuad(false);
+            ShowRawImage(false);
         }
 
         void OnDisable()
@@ -315,11 +333,12 @@ namespace TofArSamples
             {
                 if (index == 0)
                 {
-                    ViewMode = Mode.Hide;
+                    ShowQuad(false);
+                    ShowRawImage(false);
                 }
                 else
                 {
-                    ViewMode = Mode.FullScreen;
+                    UpdateView();
                 }
             }
         }
@@ -402,6 +421,11 @@ namespace TofArSamples
         /// </summary>
         void UpdateView()
         {
+            if (mgrCtrl.Index == 0)
+            {
+                return;
+            }
+
             if (ViewMode == Mode.FullScreen)
             {
                 ShowQuad(true);
@@ -426,7 +450,7 @@ namespace TofArSamples
                 if (ExistRawImage())
                 {
                     ChangeMaximize(false);
-                    rawImgRt.sizeDelta = defaultImgSize;
+                    rawImgRt.sizeDelta = GetAdjustedSize();
                 }
 
                 ApplyAnchor(ViewAnchor);
@@ -568,5 +592,7 @@ namespace TofArSamples
         }
 
         protected abstract int GetPositionIndex();
+
+        protected abstract Vector2 GetAdjustedSize();
     }
 }

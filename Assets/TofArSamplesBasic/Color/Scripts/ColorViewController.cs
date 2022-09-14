@@ -110,5 +110,20 @@ namespace TofArSamples.Color
         {
             return 0;
         }
+
+        protected override Vector2 GetAdjustedSize()
+        {
+            var currentResolution= TofArColorManager.Instance.GetProperty<ResolutionProperty>();
+
+            float defWidth = defaultImgSize.x;
+
+            float ratio = (float)currentResolution.width / currentResolution.height;
+
+            int width = (int)(defWidth );
+            int height = (int)(defWidth / ratio);
+
+            return new Vector2(width, height);
+
+        }
     }
 }

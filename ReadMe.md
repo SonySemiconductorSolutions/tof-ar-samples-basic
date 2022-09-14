@@ -1,10 +1,22 @@
 ## Contents
+* [Download the App](#download)
 * [About ToF AR](#about)
 * [Overview of ToF AR Samples Basic](#overview)
 * [Component](#component)
 * [Assets](#assets)
 * [Development environment](#environment)
 * [Contributing](#contributing)
+
+<a name="download"></a>
+# Download the App
+
+Experience immersive AR with ToF AR.  
+You can find the App from the stores below.
+
+[<img alt="Get it on the App Store" src="/Docs/images/App_Store_Badge_US-UK_092917.svg" height="60">](https://apps.apple.com/us/developer/id1601362415)
+&nbsp;&nbsp;&nbsp;&nbsp;
+[<img alt="Get it on Google Play" src="/Docs/images/google-play-badge_us.png" height="70">](https://play.google.com/store/apps/developer?id=Sony+Semiconductor+Solutions+Corporation)
+
 
 <a name="about"></a>
 # About ToF AR
@@ -92,18 +104,30 @@ Please see [the ToF AR Site on Developer World](https://developer.sony.com/devel
     <th width="250">ColorBody</th>
     <th width="250">HandMark</th>
     <th width="250">ColorHandMark</th>
-    <th width="250">Face</th>
+    <th width="250">SLAM</th>
 </tr>
 <tr align="center">
     <td>Display a human bone model on superimposed Depth and Color image</td>
     <td>Recognize the mark drawn with the index finger and display the mark name</td>
     <td>Recognize the mark drawn with the index finger and display the mark name. Superimpose Color image and Depth image</td>
-    <td>Overlay white mask on the face based on the face recognition. Also display the recognition result from the shape of the mouth</td>
+    <td>Display the coordinates of the SLAM-supported camera</td>
 </tr>
 <tr align="center">
     <td><img src="/Docs/images/13_ColorBody.jpg" width="150"></td>
     <td><img src="/Docs/images/14_HandMark.jpg" width="150"></td>
     <td><img src="/Docs/images/15_ColorHandMark.jpg" width="150"></td>
+    <td><img src="/Docs/images/16_SLAM.jpg" width="150"></td>
+</tr>
+</table>
+
+<table>
+<tr align="center">
+    <th width="250">Face</th>
+</tr>
+<tr align="center">
+    <td>Overlay white mask on the face based on the face recognition. Also display the recognition result from the shape of the mouth</td>
+</tr>
+<tr align="center">
     <td><img src="/Docs/images/17_Face.jpg" width="150"></td>
 </tr>
 </table>
@@ -127,24 +151,25 @@ Using the built application is described below.
 The table below shows the relationships between the 17 scenes in the sample application and the ToF AR components used by each scene. The scene names are arranged vertically and the component names are arranged horizontally. A check mark indicates that the component is used.
 
 
-||ToF|Color|Mesh|Coordinate|Hand|MarkRecog|Body|Segmentation|Face|Plane|Modeling|
-|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|Color             |  |✓|  |  |  |  |  |  |  |  |  |
-|ColorDepth        |✓|✓|  |✓|  |  |  |  |  |  |  |
-|BasicStream       |✓|✓|  |  |  |  |  |  |  |  |  |
-|DepthConfidence   |✓|  |  |  |  |  |  |  |  |  |  |
-|PointCloud        |✓|  |  |  |  |  |  |  |  |  |  |
-|ColorPointCloud   |✓|✓|  |✓|  |  |  |  |  |  |  |
-|HumanPointCloud   |✓|✓|  |✓|  |  |  |✓|  |  |  |
-|Segmentation      |  |✓|  |  |  |  |  |✓|  |  |  |
-|Hand              |✓|✓|  |✓|✓|  |  |  |  |  |  |
-|LiveMeshOcclusion |✓|✓|✓|✓|  |  |  |  |  |  |  |
-|ColorHandOcclusion|✓|✓|✓|✓|✓|  |  |  |  |  |  |
-|Body              |✓|  |  |  |  |  |✓|  |  |  |  |
-|ColorBody         |✓|✓|  |✓|  |  |✓|  |  |  |  |
-|HandHark          |✓|  |  |  |✓|✓|  |  |  |  |  |
-|ColorHandMark     |✓|✓|  |  |✓|✓|  |  |  |  |  |
-|Face              |✓|✓|  |✓|✓|  |  |  |✓|  |  |
+||ToF|Color|Mesh|Coordinate|Hand|MarkRecog|Body|Segmentation|Slam|Face|Plane|Modeling|
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|Color             |  |✓|  |  |  |  |  |  |  |  |  |  |
+|ColorDepth        |✓|✓|  |✓|  |  |  |  |  |  |  |  |
+|BasicStream       |✓|✓|  |  |  |  |  |  |  |  |  |  |
+|DepthConfidence   |✓|  |  |  |  |  |  |  |  |  |  |  |
+|PointCloud        |✓|  |  |  |  |  |  |  |  |  |  |  |
+|ColorPointCloud   |✓|✓|  |✓|  |  |  |  |  |  |  |  |
+|HumanPointCloud   |✓|✓|  |✓|  |  |  |✓|  |  |  |  |
+|Segmentation      |  |✓|  |  |  |  |  |✓|  |  |  |  |
+|Hand              |✓|✓|  |✓|✓|  |  |  |  |  |  |  |
+|LiveMeshOcclusion |✓|✓|✓|✓|  |  |  |  |  |  |  |  |
+|ColorHandOcclusion|✓|✓|✓|✓|✓|  |  |  |  |  |  |  |
+|Body              |✓|  |  |  |  |  |✓|  |  |  |  |  |
+|ColorBody         |✓|✓|  |✓|  |  |✓|  |  |  |  |  |
+|HandHark          |✓|  |  |  |✓|✓|  |  |  |  |  |  |
+|ColorHandMark     |✓|✓|  |  |✓|✓|  |  |  |  |  |  |
+|SLAM              |✓|✓|  |  |  |  |  |  |✓|  |  |  |
+|Face              |✓|✓|  |✓|✓|  |  |  |  |✓|  |  |
 
 
 <a name="assets"></a>
@@ -181,7 +206,9 @@ Please see [VRM documentation](https://vrm.dev/en/vrm/index).
 
 ## Build library
 ToF AR is required for build.
-Please download the Toolkit from [the ToF AR Site on Developer World](https://developer.sony.com/develop/tof-ar), then import and use it.
+Please download the Toolkit from [the ToF AR Site on Developer World](https://developer.sony.com/develop/tof-ar), then import and use it.  
+If the project is opened before importing, a confirmation message for entering safe mode will appear depending on the settings.
+If safe mode is entered, please import after exiting safe mode from the safe mode menu etc.
 
 ## Documents
 
@@ -195,8 +222,8 @@ ToF AR Development documents are also available on Developer World.
 
 Operation was verified in the following environment:
 
-* Unity Version  : 2020.3.28f1
-* ToF AR Version : 1.0.0
+* Unity Version  : 2020.3.36f1
+* ToF AR Version : 1.1.0
 
 <a name="contributing"></a>
 # Contributing

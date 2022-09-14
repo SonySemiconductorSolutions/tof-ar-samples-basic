@@ -73,12 +73,15 @@ namespace TofArSamples.Body
             itemOffsetX = settings.AddItem("Offset X", BodyModelController.OffsetMin,
                 BodyModelController.OffsetMax, BodyModelController.OffsetStep,
                 offset.x, ChangeOffsetX);
+            itemOffsetX.IsNotifyImmediately = true;
             itemOffsetY = settings.AddItem("Offset Y", BodyModelController.OffsetMin,
                 BodyModelController.OffsetMax, BodyModelController.OffsetStep,
                 offset.y, ChangeOffsetY);
+            itemOffsetY.IsNotifyImmediately = true;
             itemOffsetZ = settings.AddItem("Offset Z", BodyModelController.OffsetMin,
                 BodyModelController.OffsetMax, BodyModelController.OffsetStep,
                 offset.z, ChangeOffsetZ);
+            itemOffsetZ.IsNotifyImmediately = true;
 
             settings.AddItem("Reset Offset", ResetOffset);
             modelCtrl.OnChangeOffset += OnChangeOffset;
@@ -149,6 +152,7 @@ namespace TofArSamples.Body
             itemScale = settings.AddItem("Scale", BodyModelController.ScaleMin,
                 BodyModelController.ScaleMax, BodyModelController.ScaleStep,
                 scale, ChangeScale);
+            itemScale.IsNotifyImmediately = true;
 
             settings.AddItem("Reset Scale", ResetScale);
 

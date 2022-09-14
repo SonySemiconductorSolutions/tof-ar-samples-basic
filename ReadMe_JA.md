@@ -1,10 +1,22 @@
 ## 目次
+* [アプリをダウンロード](#download)
 * [ToF ARについて](#about)
 * [ToF AR Samples Basicの概要](#overview)
 * [コンポーネント](#component)
 * [アセット](#assets)
 * [開発環境](#environment)
 * [コントリビューション](#contributing)
+
+<a name="download"></a>
+# アプリをダウンロード
+
+ToF AR で没入感のあるARを体験しましょう。  
+以下のストアでアプリを見つけることができます。
+
+[<img alt="App Store からダウンロード" src="/Docs/images/App_Store_Badge_JP_100317.svg" height="60">](https://apps.apple.com/jp/developer/id1601362415)
+&nbsp;&nbsp;&nbsp;&nbsp;
+[<img alt="Google Play で手に入れよう" src="/Docs/images/google-play-badge_jp.png" height="68">](https://play.google.com/store/apps/developer?id=Sony+Semiconductor+Solutions+Corporation)
+
 
 <a name="about"></a>
 # ToF ARについて
@@ -97,18 +109,30 @@ Dveloper Wolrd の[ToF AR サイト](https://developer.sony.com/develop/tof-ar)�
     <th width="250">ColorBody</th>
     <th width="250">HandMark</th>
     <th width="250">ColorHandMark</th>
-    <th width="250">Face</th>
+    <th width="250">SLAM</th>
 </tr>
 <tr align="center">
     <td>人体のボーンモデルを、DepthイメージとColorイメージを重畳した画像の上に表示</td>
     <td>人差し指で描いたマークを認識し、マーク名を表示</td>
     <td>人差し指で描いたマークを認識し、マーク名を表示。あわせてDepthイメージにColorイメージを重畳表示</td>
-    <td>顔認識に基づき顔の上に白色マスクを表示。あわせて口の形からあいうえお認識結果を表示</td>
+    <td>SLAMに対応したカメラ座標表示</td>
 </tr>
 <tr align="center">
     <td><img src="/Docs/images/13_ColorBody.jpg" width="150"></td>
     <td><img src="/Docs/images/14_HandMark.jpg" width="150"></td>
     <td><img src="/Docs/images/15_ColorHandMark.jpg" width="150"></td>
+    <td><img src="/Docs/images/16_SLAM.jpg" width="150"></td>
+</tr>
+</table>
+
+<table>
+<tr align="center">
+    <th width="250">Face</th>
+</tr>
+<tr align="center">
+    <td>顔認識に基づき顔の上に白色マスクを表示。あわせて口の形からあいうえお認識結果を表示</td>
+</tr>
+<tr align="center">
     <td><img src="/Docs/images/17_Face.jpg" width="150"></td>
 </tr>
 </table>
@@ -131,24 +155,25 @@ Dveloper Wolrd の[ToF AR サイト](https://developer.sony.com/develop/tof-ar)�
 
 サンプルアプリケーションの17シーンと、各シーンが利用するToF AR コンポーネントの関係を示すテーブルです。縦にシーン名、横にコンポート名を並べています。チェックマークは、コンポーネント利用を示します。
 
-||ToF|Color|Mesh|Coordinate|Hand|MarkRecog|Body|Segmentation|Face|Plane|Modeling|
-|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|Color             |  |✓|  |  |  |  |  |  |  |  |  |
-|ColorDepth        |✓|✓|  |✓|  |  |  |  |  |  |  |
-|BasicStream       |✓|✓|  |  |  |  |  |  |  |  |  |
-|DepthConfidence   |✓|  |  |  |  |  |  |  |  |  |  |
-|PointCloud        |✓|  |  |  |  |  |  |  |  |  |  |
-|ColorPointCloud   |✓|✓|  |✓|  |  |  |  |  |  |  |
-|HumanPointCloud   |✓|✓|  |✓|  |  |  |✓|  |  |  |
-|Segmentation      |  |✓|  |  |  |  |  |✓|  |  |  |
-|Hand              |✓|✓|  |✓|✓|  |  |  |  |  |  |
-|LiveMeshOcclusion |✓|✓|✓|✓|  |  |  |  |  |  |  |
-|ColorHandOcclusion|✓|✓|✓|✓|✓|  |  |  |  |  |  |
-|Body              |✓|  |  |  |  |  |✓|  |  |  |  |
-|ColorBody         |✓|✓|  |✓|  |  |✓|  |  |  |  |
-|HandHark          |✓|  |  |  |✓|✓|  |  |  |  |  |
-|ColorHandMark     |✓|✓|  |  |✓|✓|  |  |  |  |  |
-|Face              |✓|✓|  |✓|✓|  |  |  |✓|  |  |
+||ToF|Color|Mesh|Coordinate|Hand|MarkRecog|Body|Segmentation|Slam|Face|Plane|Modeling|
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|Color             |  |✓|  |  |  |  |  |  |  |  |  |  |
+|ColorDepth        |✓|✓|  |✓|  |  |  |  |  |  |  |  |
+|BasicStream       |✓|✓|  |  |  |  |  |  |  |  |  |  |
+|DepthConfidence   |✓|  |  |  |  |  |  |  |  |  |  |  |
+|PointCloud        |✓|  |  |  |  |  |  |  |  |  |  |  |
+|ColorPointCloud   |✓|✓|  |✓|  |  |  |  |  |  |  |  |
+|HumanPointCloud   |✓|✓|  |✓|  |  |  |✓|  |  |  |  |
+|Segmentation      |  |✓|  |  |  |  |  |✓|  |  |  |  |
+|Hand              |✓|✓|  |✓|✓|  |  |  |  |  |  |  |
+|LiveMeshOcclusion |✓|✓|✓|✓|  |  |  |  |  |  |  |  |
+|ColorHandOcclusion|✓|✓|✓|✓|✓|  |  |  |  |  |  |  |
+|Body              |✓|  |  |  |  |  |✓|  |  |  |  |  |
+|ColorBody         |✓|✓|  |✓|  |  |✓|  |  |  |  |  |
+|HandHark          |✓|  |  |  |✓|✓|  |  |  |  |  |  |
+|ColorHandMark     |✓|✓|  |  |✓|✓|  |  |  |  |  |  |
+|SLAM              |✓|✓|  |  |  |  |  |  |✓|  |  |  |
+|Face              |✓|✓|  |✓|✓|  |  |  |  |✓|  |  |
 
 
 <a name="assets"></a>
@@ -185,7 +210,9 @@ Dveloper Wolrd の[ToF AR サイト](https://developer.sony.com/develop/tof-ar)�
 
 ## ビルド用ライブラリ
 ビルドには、ToF AR が必要です。
-Developer Worldの[ToF AR サイト](https://developer.sony.com/develop/tof-ar)からダウンロードし、インポートして使用して下さい。
+Developer Worldの[ToF AR サイト](https://developer.sony.com/develop/tof-ar)からダウンロードし、インポートして使用して下さい。  
+インポート前にプロジェクトを開くと、設定によってはセーフモードへの移行確認メッセージが表示されます。  
+セーフモードに移行した場合、セーフモードメニューなどからセーフモードを終了してインポートを行って下さい。
 
 ## ドキュメント
 
@@ -199,8 +226,8 @@ ToF ARの開発ドキュメントも、Developer Worldで公開しています�
 
 動作検証は、下記の環境で行っています。
 
-* Unity Version  : 2020.3.28f1
-* ToF AR Version : 1.0.0 
+* Unity Version  : 2020.3.36f1
+* ToF AR Version : 1.1.0 
 
 <a name="contributing"></a>
 # コントリビューション

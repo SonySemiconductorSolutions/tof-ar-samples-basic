@@ -83,10 +83,10 @@ Shader "TofAr/Segmentation/ColorWithMask" {
                 if (i.uv3.y <= 0 && i.uv3.y >= -1 && i.uv3.x >= 0 && i.uv3.x <= +1) {
                     maskSky.x = maskSky.x*_useSky + (1.0f - maskSky.x)*_invertSky;
                 } else {
-                    maskSky.x = _invertSky;
+                    maskSky.x = _useSky;
                 }
             
-            maskHuman.x = maskHuman.x > maskSky.x ? maskHuman.x : maskSky.x;
+                maskHuman.x = maskHuman.x > maskSky.x ? maskHuman.x : maskSky.x;
                 base.w = maskHuman.x * maskHuman.x * maskHuman.x;
 
                 base.w = base.w * _MainColor.w;
