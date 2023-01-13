@@ -164,43 +164,7 @@ Shader "ToF_ARFoundation/WireframeOcclusion_URP"
         Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalRenderPipeline"}
 
         Blend SrcAlpha OneMinusSrcAlpha
-/*        Pass
-        {
-            ZWrite On
-            ColorMask 0
-            HLSLPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma exclude_renderers metal
-            
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            struct appdata
-            {
-                float4 positionOS   : POSITION;
-                float2 uv           : TEXCOORD0;
-            };
-
-            struct v2f
-            {
-                float2 uv           : TEXCOORD0;
-                float4 positionHCS  : SV_POSITION;
-            };
-
-            v2f vert(appdata v)
-            {
-                v2f o;
-                o.positionHCS = TransformObjectToHClip(v.positionOS.xyz);
-                o.uv = v.uv;
-                return o;
-            }
-
-            half4 frag(v2f i) : SV_Target
-            {
-                return half4(0,0,0,0);
-            }
-            ENDHLSL
-        }*/
         Pass
         {
             ZWrite On
@@ -229,10 +193,8 @@ Shader "ToF_ARFoundation/WireframeOcclusion_URP"
                 float4 vertex : SV_POSITION;
             };
 
-            CBUFFER_START(UnityPerMaterial)
             float4 _MainColor;
             float _LineWidth;
-            CBUFFER_END
 
             v2g vert(appdata v)
             {

@@ -5,6 +5,7 @@
 * [コンポーネント](#component)
 * [アセット](#assets)
 * [開発環境](#environment)
+* [注意事項](#notes)
 * [コントリビューション](#contributing)
 
 <a name="download"></a>
@@ -29,7 +30,7 @@ Structured light 方式など、ToF 以外のDepthセンサでもToF ARは動作
 
 ToF AR のパッケージや開発ドキュメント、ToF ARを使ったアプリケーションソフト、対応スマートフォンのリストにつきましては、
 
-Dveloper Wolrd の[ToF AR サイト](https://developer.sony.com/develop/tof-ar)をご覧ください。
+Developer World の[ToF AR サイト](https://developer.sony.com/ja/develop/tof-ar)をご覧ください。
 
 
 <a name="overview"></a>
@@ -54,10 +55,10 @@ Dveloper Wolrd の[ToF AR サイト](https://developer.sony.com/develop/tof-ar)�
     <td>DepthイメージとConfidenceイメージを画面2分割で表示</td>
 </tr>
 <tr align="center">
-    <td><img src="/Docs/images/01_Color.jpg" width="150"></td>
-    <td><img src="/Docs/images/02_ColorDepth.jpg" width="150"></td>
-    <td><img src="/Docs/images/03_BasicStream.jpg" width="150"></td>
-    <td><img src="/Docs/images/04_DepthConfidence.jpg" width="150"></td>
+    <td><img src="/Docs/images/01_Color.jpg"           alt="image of Color scene"           width="150"></td>
+    <td><img src="/Docs/images/02_ColorDepth.jpg"      alt="image of ColorDepth scene"      width="150"></td>
+    <td><img src="/Docs/images/03_BasicStream.jpg"     alt="image of BasicStream scene"     width="150"></td>
+    <td><img src="/Docs/images/04_DepthConfidence.jpg" alt="image of DepthConfidence scene" width="150"></td>
 </tr>
 </table>
 
@@ -75,10 +76,10 @@ Dveloper Wolrd の[ToF AR サイト](https://developer.sony.com/develop/tof-ar)�
     <td>人物、空のセグメンテーション結果をマスクとして表示</td>
 </tr>
 <tr align="center">
-    <td><img src="/Docs/images/05_PointCloud.jpg" width="150"></td>
-    <td><img src="/Docs/images/06_ColoredPointCloud.jpg" width="150"></td>
-    <td><img src="/Docs/images/07_HumanPointCloud.jpg" width="150"></td>
-    <td><img src="/Docs/images/08_Segmentation.jpg" width="150"></td>
+    <td><img src="/Docs/images/05_PointCloud.jpg"        alt="image of PointCloud scene"        width="150"></td>
+    <td><img src="/Docs/images/06_ColoredPointCloud.jpg" alt="image of ColoredPointCloud scene" width="150"></td>
+    <td><img src="/Docs/images/07_HumanPointCloud.jpg"   alt="image of HumanPointCloud scene"   width="150"></td>
+    <td><img src="/Docs/images/08_Segmentation.jpg"      alt="image of Segmentation scene"      width="150"></td>
 </tr>
 </table>
 
@@ -96,10 +97,10 @@ Dveloper Wolrd の[ToF AR サイト](https://developer.sony.com/develop/tof-ar)�
     <td>人体のボーンモデルを、Depthイメージの上に表示</td>
 </tr>
 <tr align="center">
-    <td><img src="/Docs/images/09_Hand.jpg" width="150"></td>
-    <td><img src="/Docs/images/10_LiveMeshOcclusion.jpg" width="150"></td>
-    <td><img src="/Docs/images/11_ColorHandOcclusion.jpg" width="150"></td>
-    <td><img src="/Docs/images/12_Body.jpg" width="150"></td>
+    <td><img src="/Docs/images/09_Hand.jpg"               alt="image of Hand scene"               width="150"></td>
+    <td><img src="/Docs/images/10_LiveMeshOcclusion.jpg"  alt="image of LiveMeshOcclusion scene"  width="150"></td>
+    <td><img src="/Docs/images/11_ColorHandOcclusion.jpg" alt="image of ColorHandOcclusion scene" width="150"></td>
+    <td><img src="/Docs/images/12_Body.jpg"               alt="image of Body scene"               width="150"></td>
 
 </tr>
 </table>
@@ -118,10 +119,10 @@ Dveloper Wolrd の[ToF AR サイト](https://developer.sony.com/develop/tof-ar)�
     <td>SLAMに対応したカメラ座標表示</td>
 </tr>
 <tr align="center">
-    <td><img src="/Docs/images/13_ColorBody.jpg" width="150"></td>
-    <td><img src="/Docs/images/14_HandMark.jpg" width="150"></td>
-    <td><img src="/Docs/images/15_ColorHandMark.jpg" width="150"></td>
-    <td><img src="/Docs/images/16_SLAM.jpg" width="150"></td>
+    <td><img src="/Docs/images/13_ColorBody.jpg"     alt="image of ColorBody scene"     width="150"></td>
+    <td><img src="/Docs/images/14_HandMark.jpg"      alt="image of HandMark scene"      width="150"></td>
+    <td><img src="/Docs/images/15_ColorHandMark.jpg" alt="image of ColorHandMark scene" width="150"></td>
+    <td><img src="/Docs/images/16_SLAM.jpg"          alt="image of SLAM scene"          width="150"></td>
 </tr>
 </table>
 
@@ -133,7 +134,7 @@ Dveloper Wolrd の[ToF AR サイト](https://developer.sony.com/develop/tof-ar)�
     <td>顔認識に基づき顔の上に白色マスクを表示。あわせて口の形からあいうえお認識結果を表示</td>
 </tr>
 <tr align="center">
-    <td><img src="/Docs/images/17_Face.jpg" width="150"></td>
+    <td><img src="/Docs/images/17_Face.jpg" alt="image of Face scene" width="150"></td>
 </tr>
 </table>
 
@@ -143,7 +144,7 @@ Dveloper Wolrd の[ToF AR サイト](https://developer.sony.com/develop/tof-ar)�
 
 1. アプリケーションを起動し、トップ画面のシーン一覧からシーンを選んでタップします。 
 
-    <img src="/Docs/images/topmenu.jpg" width="150">
+    <img src="/Docs/images/topmenu.jpg" alt="image of Top screen" width="150">
 
 1. 画面左下のカメラアイコンをタップすると、選択したシーンで有効なカメラのリストが表示されます。カメラを選択すると、シーンの動作を開始します。　 
 
@@ -153,7 +154,7 @@ Dveloper Wolrd の[ToF AR サイト](https://developer.sony.com/develop/tof-ar)�
 <a name="component"></a>
 # コンポーネント
 
-サンプルアプリケーションの17シーンと、各シーンが利用するToF AR コンポーネントの関係を示すテーブルです。縦にシーン名、横にコンポート名を並べています。チェックマークは、コンポーネント利用を示します。
+サンプルアプリケーションの17シーンと、各シーンが利用するToF AR コンポーネントの関係を示すテーブルです。縦にシーン名、横にコンポーネント名を並べています。チェックマークは、コンポーネント利用を示します。
 
 ||ToF|Color|Mesh|Coordinate|Hand|MarkRecog|Body|Segmentation|Slam|Face|Plane|Modeling|
 |:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
@@ -210,7 +211,7 @@ Dveloper Wolrd の[ToF AR サイト](https://developer.sony.com/develop/tof-ar)�
 
 ## ビルド用ライブラリ
 ビルドには、ToF AR が必要です。
-Developer Worldの[ToF AR サイト](https://developer.sony.com/develop/tof-ar)からダウンロードし、インポートして使用して下さい。  
+Developer Worldの[ToF AR サイト](https://developer.sony.com/ja/develop/tof-ar)からダウンロードし、インポートして使用して下さい。  
 インポート前にプロジェクトを開くと、設定によってはセーフモードへの移行確認メッセージが表示されます。  
 セーフモードに移行した場合、セーフモードメニューなどからセーフモードを終了してインポートを行って下さい。
 
@@ -226,8 +227,16 @@ ToF ARの開発ドキュメントも、Developer Worldで公開しています�
 
 動作検証は、下記の環境で行っています。
 
-* Unity Version  : 2020.3.36f1
-* ToF AR Version : 1.1.0 
+* Unity Version  : 2021.3.11f1
+* ToF AR Version : 1.2.0
+
+
+<a name="notes"></a>
+# 注意事項
+
+認識可能なハンドジェスチャーは国・地域によって異なる意味を有する場合があります。  
+事前に確認されることをお勧めします。
+
 
 <a name="contributing"></a>
 # コントリビューション

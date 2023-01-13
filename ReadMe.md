@@ -5,13 +5,14 @@
 * [Component](#component)
 * [Assets](#assets)
 * [Development environment](#environment)
+* [Notes](#notes)
 * [Contributing](#contributing)
 
 <a name="download"></a>
 # Download the App
 
-Experience immersive AR with ToF AR.  
-You can find the App from the stores below.
+Experience immersive AR scenes made with ToF AR.  
+Download ToF AR Samples Basic now from App Store and Google Play and try it out! 
 
 [<img alt="Get it on the App Store" src="/Docs/images/App_Store_Badge_US-UK_092917.svg" height="60">](https://apps.apple.com/us/developer/id1601362415)
 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -21,9 +22,10 @@ You can find the App from the stores below.
 <a name="about"></a>
 # About ToF AR
 
-ToF AR, Time of Flight Augmented Reality, is a toolkit library intended to aid in Unity application development for iOS and Android devices. ToF AR ToF AR mainly targets iOS / Android smartphones with ToF sensor, but it also works with Depth sensors other than ToF, such as Structured light method sensor.
+ToF AR, Time of Flight Augmented Reality, is a toolkit library for Unity providing application developers with tools to start building immersive worlds for iOS and Android devices.
+ToF AR mainly targets iOS and Android smartphones with a ToF sensor from Sony, but it also works with other depth sensors, such as structured light method sensors.
 
-As well as this ToF AR, Unity and compatible devices with ToF sensors are required to build and execute this sample application.
+As well as ToF AR, Unity and compatible devices with ToF sensors are required to build and execute the ToF AR Samples Basic application.
 
 Please see [the ToF AR Site on Developer World](https://developer.sony.com/develop/tof-ar) for ToF AR downloads and development guides, sample applications, and a list of compatible devices.
 
@@ -46,14 +48,14 @@ Please see [the ToF AR Site on Developer World](https://developer.sony.com/devel
 <tr align="center">
     <td>Display Color image</td>
     <td>Superimpose Color image and Depth image</td>
-    <td>Tile Depth, Confidence and Color image</td>
+    <td>Tile Depth, Confidence and Color images</td>
     <td>Display Depth image and Confidence image side by side</td>
 </tr>
 <tr align="center">
-    <td><img src="/Docs/images/01_Color.jpg" width="150"></td>
-    <td><img src="/Docs/images/02_ColorDepth.jpg" width="150"></td>
-    <td><img src="/Docs/images/03_BasicStream.jpg" width="150"></td>
-    <td><img src="/Docs/images/04_DepthConfidence.jpg" width="150"></td>
+    <td><img src="/Docs/images/01_Color.jpg"           alt="image of Color scene"           width="150"></td>
+    <td><img src="/Docs/images/02_ColorDepth.jpg"      alt="image of ColorDepth scene"      width="150"></td>
+    <td><img src="/Docs/images/03_BasicStream.jpg"     alt="image of BasicStream scene"     width="150"></td>
+    <td><img src="/Docs/images/04_DepthConfidence.jpg" alt="image of DepthConfidence scene" width="150"></td>
 </tr>
 </table>
 
@@ -68,13 +70,13 @@ Please see [the ToF AR Site on Developer World](https://developer.sony.com/devel
     <td>Display a subject as a single color PointCloud</td>
     <td>Display a subject as a color PointCloud</td>
     <td>Display a human body as a color PointCloud</td>
-    <td>Display segmentation results of person and sky as masks</td>
+    <td>Display segmentation results for person and sky as masks</td>
 </tr>
 <tr align="center">
-    <td><img src="/Docs/images/05_PointCloud.jpg" width="150"></td>
-    <td><img src="/Docs/images/06_ColoredPointCloud.jpg" width="150"></td>
-    <td><img src="/Docs/images/07_HumanPointCloud.jpg" width="150"></td>
-    <td><img src="/Docs/images/08_Segmentation.jpg" width="150"></td>
+    <td><img src="/Docs/images/05_PointCloud.jpg"        alt="image of PointCloud scene"        width="150"></td>
+    <td><img src="/Docs/images/06_ColoredPointCloud.jpg" alt="image of ColoredPointCloud scene" width="150"></td>
+    <td><img src="/Docs/images/07_HumanPointCloud.jpg"   alt="image of HumanPointCloud scene"   width="150"></td>
+    <td><img src="/Docs/images/08_Segmentation.jpg"      alt="image of Segmentation scene"      width="150"></td>
 </tr>
 </table>
 
@@ -92,10 +94,10 @@ Please see [the ToF AR Site on Developer World](https://developer.sony.com/devel
     <td>Display a human bone model on the Depth image</td>
 </tr>
 <tr align="center">
-    <td><img src="/Docs/images/09_Hand.jpg" width="150"></td>
-    <td><img src="/Docs/images/10_LiveMeshOcclusion.jpg" width="150"></td>
-    <td><img src="/Docs/images/11_ColorHandOcclusion.jpg" width="150"></td>
-    <td><img src="/Docs/images/12_Body.jpg" width="150"></td>
+    <td><img src="/Docs/images/09_Hand.jpg"               alt="image of Hand scene"               width="150"></td>
+    <td><img src="/Docs/images/10_LiveMeshOcclusion.jpg"  alt="image of LiveMeshOcclusion scene"  width="150"></td>
+    <td><img src="/Docs/images/11_ColorHandOcclusion.jpg" alt="image of ColorHandOcclusion scene" width="150"></td>
+    <td><img src="/Docs/images/12_Body.jpg"               alt="image of Body scene"               width="150"></td>
 </tr>
 </table>
 
@@ -109,14 +111,14 @@ Please see [the ToF AR Site on Developer World](https://developer.sony.com/devel
 <tr align="center">
     <td>Display a human bone model on superimposed Depth and Color image</td>
     <td>Recognize the mark drawn with the index finger and display the mark name</td>
-    <td>Recognize the mark drawn with the index finger and display the mark name. Superimpose Color image and Depth image</td>
+    <td>Recognize the mark drawn with the index finger and display the mark name. Superimpose Color image and Depth image.</td>
     <td>Display the coordinates of the SLAM-supported camera</td>
 </tr>
 <tr align="center">
-    <td><img src="/Docs/images/13_ColorBody.jpg" width="150"></td>
-    <td><img src="/Docs/images/14_HandMark.jpg" width="150"></td>
-    <td><img src="/Docs/images/15_ColorHandMark.jpg" width="150"></td>
-    <td><img src="/Docs/images/16_SLAM.jpg" width="150"></td>
+    <td><img src="/Docs/images/13_ColorBody.jpg"     alt="image of ColorBody scene"     width="150"></td>
+    <td><img src="/Docs/images/14_HandMark.jpg"      alt="image of HandMark scene"      width="150"></td>
+    <td><img src="/Docs/images/15_ColorHandMark.jpg" alt="image of ColorHandMark scene" width="150"></td>
+    <td><img src="/Docs/images/16_SLAM.jpg"          alt="image of SLAM scene"          width="150"></td>
 </tr>
 </table>
 
@@ -125,10 +127,10 @@ Please see [the ToF AR Site on Developer World](https://developer.sony.com/devel
     <th width="250">Face</th>
 </tr>
 <tr align="center">
-    <td>Overlay white mask on the face based on the face recognition. Also display the recognition result from the shape of the mouth</td>
+    <td>Overlay a white mask on the face based on face recognition. Also display the recognition result from the shape of the mouth.</td>
 </tr>
 <tr align="center">
-    <td><img src="/Docs/images/17_Face.jpg" width="150"></td>
+    <td><img src="/Docs/images/17_Face.jpg" alt="image of Face scene" width="150"></td>
 </tr>
 </table>
 
@@ -136,13 +138,14 @@ Please see [the ToF AR Site on Developer World](https://developer.sony.com/devel
 
 Using the built application is described below.
 
-1. When you start the application, the scene list is displayed on the screen. Select a scene from the list and tap it to start it.
+<img src="/Docs/images/topmenu.jpg" alt="image of Top screen" width="150">
 
-    <img src="/Docs/images/topmenu.jpg" width="150">
+1. When you start the application, the scene list is displayed on the screen. 
+Select a scene from the list and tap it to start it.
 
-1. Tap the camera icon at the bottom left of the screen to display a list of available cameras for the selected scene. Select an appropriate camera, and the scene will start working.
+2. Tap the camera icon at the bottom left of the screen to display a list of available cameras for the selected scene. Select an appropriate camera, and the scene will start working.
 
-1. Tap the screen with four fingers to return to the top screen.
+3. Tap the screen with four fingers to return to the top screen.
 
 
 <a name="component"></a>
@@ -175,40 +178,45 @@ The table below shows the relationships between the 17 scenes in the sample appl
 <a name="assets"></a>
 # Assets
 
-**ToF AR Samples Basic** provides the following assets. Assets include URP (Universal Render Pipeline) and VRM for 3D characters and avatars.
+**ToF AR Samples Basic** provides the following assets. Assets include URP (Universal Render Pipeline) and VRM (Virtual Reality Model) for 3D characters and avatars.
 
 ### TofArSamplesBasic
 17 sample scene scripts and resources are stored for each component.
 
+
 ### TofArSettings
 Prefabs and scripts are stored as the configuration change UI used by each component.
-
 
 |File|Description|
 |:--|:--|
 |Settings.Prefab|Configuration change UI|
 |XXXController.Prefab|Manage configuration changes for each component|
 
+
 ### URP（Universal Render Pipeline）
 
 URP is the standard lightweight rendering pipeline of Unity for displaying scene content. URP is included in the asset.
 
-
 Please see [Universal Render Pipeline documentation](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@7.1/manual/index.html).
 
-### VRM
-VRM is a platform-independent 3D avatar file format that handles humanoid character and avatars. VRM is included in the asset.
+
+### VRM (Virtual Reality Model)
+VRM is a platform-independent 3D avatar file format for humanoid characters and avatars. VRM is included in the asset.
 
 Please see [VRM documentation](https://vrm.dev/en/vrm/index).
+
 
 <a name="environment"></a>
 # Development environment
 
 ## Build library
-ToF AR is required for build.
-Please download the Toolkit from [the ToF AR Site on Developer World](https://developer.sony.com/develop/tof-ar), then import and use it.  
-If the project is opened before importing, a confirmation message for entering safe mode will appear depending on the settings.
-If safe mode is entered, please import after exiting safe mode from the safe mode menu etc.
+
+ToF AR is required for build. Download the ToF AR toolkit from [the ToF AR Site on Developer World](https://developer.sony.com/develop/tof-ar), then import it and use it in a Unity project.
+Note that both Base and Hand components are required by ToF AR Server.
+
+If the project is opened before ToF AR is set up, a confirmation message to enter safe mode may appear, depending on your settings.
+If you start Unity in safe mode, exit safe mode and then import the ToF AR package.
+
 
 ## Documents
 
@@ -216,17 +224,29 @@ ToF AR Development documents are also available on Developer World.
 
 * [ToF AR user manual](https://developer.sony.com/develop/tof-ar/development-guides/docs/ToF_AR_User_Manual_en.html) for overview and usage
 * [ToF AR reference articles](https://developer.sony.com/develop/tof-ar/development-guides/docs/ToF_AR_Reference_Articles_en.html) for articles about each component
-* [ToF AR API references](https://developer.sony.com/develop/tof-ar/development-guides/reference-api/reference/api/TofAr.V0.html)
+* [ToF AR API references](https://developer.sony.com/develop/tof-ar/development-guides/reference-api-en/reference/api/TofAr.V0.html)
+
 
 ## Verification environment
 
 Operation was verified in the following environment:
 
-* Unity Version  : 2020.3.36f1
-* ToF AR Version : 1.1.0
+* Unity Version  : 2021.3.11f1
+* ToF AR Version : 1.2.0
+
+
+<a name="notes"></a>
+# Notes
+
+Be aware that recognizable hand gestures may have different meaning in countries/areas.  
+Prior cultural checks are advisable.
+
 
 <a name="contributing"></a>
 # Contributing
-**We cannot accept any Pull Request (PR) at this time.** However, you are always welcome to report bugs and request new features by creating issues.
 
-We have released this program as a sample app with a goal of making ToF AR widely available. So please feel free to create issues for reporting bugs and requesting features, and we may update this program or add new features after getting feedback.
+**We cannot accept any Pull Request (PR) at this time.**
+However, you are always welcome to report bugs and request new features by creating issues.
+
+We have released this program as a sample app with a goal of making ToF AR widely available.
+So please feel free to create issues for reporting bugs and requesting features, and we may update this program or add new features after getting feedback.

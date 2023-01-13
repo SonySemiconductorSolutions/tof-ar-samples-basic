@@ -7,7 +7,9 @@
 
 using System;
 using System.Collections.Generic;
+using TofAr.V0;
 using TofAr.V0.Body;
+using TofAr.V0.Body.SV2;
 using UnityEngine;
 
 namespace TofArSamples.Body
@@ -65,6 +67,8 @@ namespace TofArSamples.Body
         [SerializeField]
         protected uint bodyIndex = 0;
 
+        private int currentRotation = 0;
+
         private Dictionary<JointIndices, HumanBodyBones> jointsMapping = new Dictionary<JointIndices, HumanBodyBones>
         {
             { JointIndices.Spine1, HumanBodyBones.Hips},
@@ -120,30 +124,87 @@ namespace TofArSamples.Body
 
         private void OnEnable()
         {
+            TofArBodyManager.OnStreamStarted += OnBodyStreamStarted;
             TofArBodyManager.OnStreamStopped += OnBodyStreamStopped;
+            TofArManager.OnScreenOrientationUpdated += OnScreenOrientationUpdated;
+
+            isStreamActive = TofArBodyManager.Instance.IsStreamActive;
         }
 
         private void OnDisable()
         {
+            TofArBodyManager.OnStreamStarted -= OnBodyStreamStarted;
             TofArBodyManager.OnStreamStopped -= OnBodyStreamStopped;
+            TofArManager.OnScreenOrientationUpdated += OnScreenOrientationUpdated;
+        }
+
+        private void OnScreenOrientationUpdated(ScreenOrientation previousScreenOrientation, ScreenOrientation newScreenOrientation)
+        {
+            UpdateOrientation();
+        }
+
+        private void OnBodyStreamStarted(object sender)
+        {
+            UpdateOrientation();
+            isStreamActive = true;
         }
 
         private void OnBodyStreamStopped(object sender)
         {
+            isStreamActive = false;
             foreach (var rend in renderers)
             {
                 rend.enabled = false;
             }
         }
 
-        private bool isFullbody;
+        private void UpdateOrientation()
+        {
+            if (TofArBodyManager.Instance.IsPlaying)
+            {
+                var prop = TofArBodyManager.Instance.GetProperty<CameraOrientationProperty>();
+
+                var orientation = prop.cameraOrientation;
+
+                int screenRotation = 0;
+                switch (orientation)
+                {
+                    case CameraOrientation.Portrait:
+                        screenRotation = 270; break;
+                    case CameraOrientation.LandscapeRight:
+                        screenRotation = 180; break;
+                    case CameraOrientation.PortraitUpsideDown:
+                        screenRotation = 90; break;
+                }
+                int currentScreenOrientation = TofArManager.Instance.GetScreenOrientation();
+
+                var detectorProp = TofArBodyManager.Instance.GetProperty<DetectorTypeProperty>();
+
+                if (detectorProp.detectorType == BodyPoseDetectorType.External)
+                {
+                    this.currentRotation = (currentScreenOrientation - screenRotation);
+                }
+                else
+                {
+                    this.currentRotation = (screenRotation - currentScreenOrientation);
+                }
+            }
+            else
+            {
+                this.currentRotation = 0;
+            }
+        }
+
+        //private bool isFullbody;
 
         private Vector3 rootPosition = Vector3.zero;
         private Quaternion rootRotation = Quaternion.identity;
 
+        private bool isStreamActive = false;
+
         private void Update()
         {
-            if ((0 <= this.bodyIndex) && (this.bodyIndex < TofArBodyManager.Instance?.BodyData?.Data?.results?.Length))
+            if (isStreamActive && (0 <= this.bodyIndex) && (this.bodyIndex < TofArBodyManager.Instance?.BodyData?.Data?.results?.Length))
             {
                 this.Apply(TofArBodyManager.Instance?.BodyData?.Data?.results[this.bodyIndex]);
             }
@@ -192,7 +253,6 @@ namespace TofArSamples.Body
                 return;
             }
 
-            this.isFullbody = bodyResult.bodyShot == TofAr.V0.Body.SV1.BodyShot.FullBody;
             anchorPoint = bodyResult.pose.position.GetVector3();
             anchorRotation = bodyResult.pose.rotation.GetQuaternion();
 
@@ -220,6 +280,26 @@ namespace TofArSamples.Body
                 }
             }
             isSV2 = TofArBodyManager.Instance.BodyData.Data.frameDataSource == FrameDataSource.TofArSV2BodySkeleton;
+
+            SetRootPosition(availableJoints, scale);
+
+            foreach (var joint in bodyResult.joints)
+            {
+                if (jointsMapping.ContainsKey((JointIndices)joint.index))
+                {
+                    var bone = jointsMapping[(JointIndices)joint.index];
+
+                    SetJoint(bone, joint);
+                }
+            }
+
+            SetRootRotation(availableJoints);
+
+            RootTransform.localScale = new Vector3(scale, scale, scale);
+        }
+
+        private void SetRootPosition(Dictionary<HumanBodyBones, HumanBodyJoint> availableJoints, float scale)
+        {
             if (isSV2)
             {
                 //SV2 doesn't detect hips
@@ -234,7 +314,7 @@ namespace TofArSamples.Body
             }
             else
             {
-                if (isFullbody)
+                //if (isFullbody)
                 {
                     if (!(availableJoints.ContainsKey(HumanBodyBones.Hips) && SetJoint(HumanBodyBones.Hips, availableJoints[HumanBodyBones.Hips])))
                     {
@@ -244,26 +324,19 @@ namespace TofArSamples.Body
 
                     rootPosition = RootTransform.localPosition * (1 - nrValue) + this.transform.localRotation * joints[HumanBodyBones.Hips].Target * nrValue;
                 }
-                else
+                /*else
                 {
                     if (!(availableJoints.ContainsKey(HumanBodyBones.Spine) && SetJoint(HumanBodyBones.Spine, availableJoints[HumanBodyBones.Spine])))
                     {
                         RootTransform.localScale = new Vector3(scale, scale, scale);
                         return;
                     }
-                }
+                }*/
             }
+        }
 
-            foreach (var joint in bodyResult.joints)
-            {
-                if (jointsMapping.ContainsKey((JointIndices)joint.index))
-                {
-                    var bone = jointsMapping[(JointIndices)joint.index];
-
-                    SetJoint(bone, joint);
-                }
-            }
-
+        private void SetRootRotation(Dictionary<HumanBodyBones, HumanBodyJoint> availableJoints)
+        {
             if (isSV2)
             {
                 bool b12 = (availableJoints.ContainsKey(HumanBodyBones.LeftUpperLeg));
@@ -285,7 +358,7 @@ namespace TofArSamples.Body
             }
             else
             {
-                if (isFullbody)
+                //if (isFullbody)
                 {
                     bool b12 = (availableJoints.ContainsKey(HumanBodyBones.LeftUpperLeg));
 
@@ -301,10 +374,7 @@ namespace TofArSamples.Body
                         rootRotation = Quaternion.LookRotation(forward, vup);
                         rootRotation = Quaternion.Slerp(RootTransform.localRotation, this.transform.localRotation * rootRotation, nrValue);
                     }
-                }
-
-                if (!isFullbody)
-                {
+                } /*else {
                     // For upper body, determine body orientation from Shoulders and Spine
                     float distanceSpineToHip = 0.3f;
 
@@ -321,10 +391,8 @@ namespace TofArSamples.Body
 
                     rootRotation = Quaternion.LookRotation(forward, vup);
                     rootRotation = Quaternion.Slerp(RootTransform.localRotation, this.transform.localRotation * rootRotation, nrValue);
-                }
+                }*/
             }
-
-            RootTransform.localScale = new Vector3(scale, scale, scale);
         }
 
         public void FixedUpdate()
@@ -427,7 +495,7 @@ namespace TofArSamples.Body
 
         private void Deform()
         {
-            for (int j = 0; j < (this.isFullbody ? 2 : 1); j++)
+            for (int j = 0; j < /*(this.isFullbody ? 2 : 1)*/ 2; j++)
             {
                 bool useArm = j == 0;
 
@@ -455,17 +523,20 @@ namespace TofArSamples.Body
                     end.Target = lower.Target + v2.normalized * lowerToEnd;
 
                     // Align shoulders before setting to anim
-                    Vector3 v3 = upper.Trans.position - upper.Target;
+                    Vector3 v3 = upper.Trans.position - Quaternion.Euler(0, 0, this.currentRotation) * upper.Target;
 
                     var ikHint = useArm ? (isLeft ? AvatarIKHint.LeftElbow : AvatarIKHint.RightElbow)
                         : (isLeft ? AvatarIKHint.LeftKnee : AvatarIKHint.RightKnee);
                     var ikEnd = useArm ? (isLeft ? AvatarIKGoal.LeftHand : AvatarIKGoal.RightHand)
                         : (isLeft ? AvatarIKGoal.LeftFoot : AvatarIKGoal.RightFoot);
 
+                    Vector3 hintLower = Quaternion.Euler(0, 0, this.currentRotation) * lower.Target + v3;
+                    Vector3 hintEnd = Quaternion.Euler(0, 0, this.currentRotation) * end.Target + v3;
+
                     anim.SetIKHintPositionWeight(ikHint, 0.5f);
-                    anim.SetIKHintPosition(ikHint, lower.Target + v3);
+                    anim.SetIKHintPosition(ikHint, hintLower);
                     anim.SetIKPositionWeight(ikEnd, 1.0f);
-                    anim.SetIKPosition(ikEnd, end.Target + v3);
+                    anim.SetIKPosition(ikEnd, hintEnd);
                 }
             }
         }

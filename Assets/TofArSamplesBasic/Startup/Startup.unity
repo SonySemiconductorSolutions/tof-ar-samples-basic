@@ -1369,7 +1369,8 @@ MonoBehaviour:
   PanelObj: {fileID: 1558951951}
   FadeTime: 0.3
   WaitSetup: 0
-  HeightOffset: 300
+  HeightOffsetPortrait: 200
+  HeightOffsetLandscape: 40
 --- !u!1 &833525771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1772,7 +1773,7 @@ MonoBehaviour:
   IconColor: {r: 0.552301, g: 0.6698113, b: 0.2938323, a: 0}
   Title: Common
   toolBtn: {fileID: 3802565169507857971}
-  enableBack: 1
+  enableBack: 0
   offset: 20
 --- !u!1 &1049744511
 GameObject:
@@ -2651,7 +2652,7 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 540, y: 280}
+  m_CellSize: {x: 490, y: 280}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2

@@ -121,6 +121,90 @@ namespace TofArSamples.HumanPointCloud
             }
         }
 
+        private void RenderSegmentedPointCloud(int colorWidth, int colorHeight, int depthWidth, int depthHeight)
+        {
+            humanPoints.Clear();
+
+
+            float segRatio = (float)segWidth / (float)segHeight;
+            float imgRatio = (float)colorWidth / (float)colorHeight;
+
+            float segHeightScale = 1f;
+            float segWidthScale = 1f;
+            int vOffset = 0;
+            int uOffset = 0;
+
+            // add offset and scale to match segmentation ratio
+            if (segRatio > imgRatio)
+            {
+                int colorHeightAdjusted = (int)(colorWidth / segRatio);
+                vOffset = (colorHeightAdjusted - colorHeight) / 2;
+
+                segHeightScale = (float)colorHeight / (float)colorHeightAdjusted;
+            }
+            else if (segRatio < imgRatio)
+            {
+                int colorWidthAdjusted = (int)(colorHeight * segRatio);
+                uOffset = (colorWidthAdjusted - colorWidth) / 2;
+
+                segWidthScale = (float)colorWidth / (float)colorWidthAdjusted;
+            }
+
+            float heightRatio = (float)(segHeight * segHeightScale) / (float)colorHeight;
+            float widthRatio = (float)(segWidth * segWidthScale) / (float)colorWidth;
+
+            for (int y = 0; y < depthHeight; y++)
+            {
+                for (int x = 0; x < depthWidth; x++)
+                {
+                    int depthIndex = (y * depthWidth + x);
+                    if (depthIndex >= pointCloud.Length)
+                    {
+                        continue;
+                    }
+
+                    int u = colorPoints[depthIndex].x + uOffset;
+                    int v = colorPoints[depthIndex].y + vOffset;
+
+                    int colorIndex = (int)(v * heightRatio) * segWidth + (int)(u * widthRatio);
+                    if (colorIndex >= 0 && colorIndex < segmentationBytes.Length && segmentationBytes[colorIndex] >= threshold)
+                    {
+                        humanPoints.Add(pointCloud[depthIndex]);
+                        uvPoints.Add(new Vector2((float)colorPoints[depthIndex].x / colorWidth, (float)colorPoints[depthIndex].y / colorHeight));
+                    }
+                }
+            }
+        }
+
+        private void RenderNormalPointCloud(int colorWidth, int colorHeight, int depthWidth, int depthHeight)
+        {
+            if (colorDisplay)
+            {
+                humanPoints.Clear();
+                for (int y = 0; y < depthHeight; y++)
+                {
+                    for (int x = 0; x < depthWidth; x++)
+                    {
+                        int depthIndex = (y * depthWidth + x);
+                        if (depthIndex >= pointCloud.Length)
+                        {
+                            continue;
+                        }
+
+                        if (colorPoints[depthIndex].x >= 0 && colorPoints[depthIndex].y >= 0 && colorPoints[depthIndex].x < colorWidth && colorPoints[depthIndex].y < colorHeight)
+                        {
+                            humanPoints.Add(pointCloud[depthIndex]);
+                            uvPoints.Add(new Vector2((float)colorPoints[depthIndex].x / colorWidth, (float)colorPoints[depthIndex].y / colorHeight));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                humanPoints = new List<Vector3>(pointCloud);
+            }
+        }
+
         private void Update()
         {
             if (depthConfig == null || colorConfig == null)
@@ -137,11 +221,14 @@ namespace TofArSamples.HumanPointCloud
                     {
                         lock (processLock)
                         {
-                            //if (TofArManager.Instance.RuntimeSettings.runMode == RunMode.Default)
+                            if (TofArTofManager.Instance.DepthData != null)
                             {
                                 //apply the color frame to the point cloud mesh
                                 depthToColor.depthFrame = TofArTofManager.Instance.DepthData.Data;
-                                depthToColor = TofArCoordinateManager.Instance.GetProperty<DepthToColorProperty>(depthToColor);
+                                if (depthConfig.width * depthConfig.height == depthToColor.depthFrame.Length)
+                                {
+                                    depthToColor = TofArCoordinateManager.Instance.GetProperty<DepthToColorProperty>(depthToColor);
+                                }
                             }
                             
                             if (depthToColor == null)
@@ -168,122 +255,51 @@ namespace TofArSamples.HumanPointCloud
                         {
                             if (segmentHuman && segmentationBytes != null)
                             {
-                                humanPoints.Clear();
-                                
-
-                                float segRatio = (float)segWidth / (float)segHeight;
-                                float imgRatio = (float)colorwidth / (float)colorheight;
-
-                                float segHeightScale = 1f;
-                                float segWidthScale = 1f;
-                                int vOffset = 0;
-                                int uOffset = 0;
-
-                                // add offset and scale to match segmentation ratio
-                                if (segRatio > imgRatio)
-                                {
-                                    int colorHeightAdjusted = (int) (colorwidth / segRatio);
-                                    vOffset = (colorHeightAdjusted - colorheight) / 2;
-
-                                    segHeightScale = (float)colorheight/(float)colorHeightAdjusted;
-                                }
-                                else if (segRatio < imgRatio)
-                                {
-                                    int colorWidthAdjusted = (int)(colorheight * segRatio);
-                                    uOffset = (colorWidthAdjusted - colorwidth) / 2;
-
-                                    segWidthScale = (float)colorwidth / (float)colorWidthAdjusted;
-                                }
-
-                                float heightRatio = (float)(segHeight * segHeightScale) / (float)colorheight;
-                                float widthRatio = (float)(segWidth * segWidthScale) / (float)colorwidth;
-
-                                for (int y = 0; y < depthHeight; y++)
-                                {
-                                    for (int x = 0; x < depthWidth; x++)
-                                    {
-                                        int depthIndex = (y * depthWidth + x);
-                                        if (depthIndex >= pointCloud.Length)
-                                        {
-                                            continue;
-                                        }
-
-                                        int u = colorPoints[depthIndex].x + uOffset;
-                                        int v = colorPoints[depthIndex].y + vOffset;
-
-                                        int colorIndex = (int)(v * heightRatio) * segWidth + (int)(u * widthRatio);
-                                        if (colorIndex >= 0 && colorIndex < segmentationBytes.Length && segmentationBytes[colorIndex] >= threshold)
-                                        {
-                                            humanPoints.Add(pointCloud[depthIndex]);
-                                            uvPoints.Add(new Vector2((float)colorPoints[depthIndex].x / colorwidth, (float)colorPoints[depthIndex].y / colorheight));
-                                        }
-                                    }
-                                }
+                                RenderSegmentedPointCloud(colorwidth, colorheight, depthWidth, depthHeight);
                             }
                             else
                             {
-                                
-                                if (colorDisplay)
-                                {
-                                    humanPoints.Clear();
-                                    for (int y = 0; y < depthHeight; y++)
-                                    {
-                                        for (int x = 0; x < depthWidth; x++)
-                                        {
-                                            int depthIndex = (y * depthWidth + x);
-                                            if (depthIndex >= pointCloud.Length)
-                                            {
-                                                continue;
-                                            }
-
-                                            if (colorPoints[depthIndex].x >= 0 && colorPoints[depthIndex].y >= 0 && colorPoints[depthIndex].x < colorwidth && colorPoints[depthIndex].y < colorheight)
-                                            {
-                                                humanPoints.Add(pointCloud[depthIndex]);
-                                                uvPoints.Add(new Vector2((float)colorPoints[depthIndex].x / colorwidth, (float)colorPoints[depthIndex].y / colorheight));
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    humanPoints = new List<Vector3>(pointCloud);
-                                }
+                                RenderNormalPointCloud(colorwidth, colorheight, depthWidth, depthHeight);
                             }
                         }
-                        
                     }
 
-                    if (humanPoints.Count > latestPointNum)
-                    {
-                        System.Array.Resize(ref indices, humanPoints.Count);
-                        for (var i = latestPointNum; i < humanPoints.Count; i++)
-                        {
-                            indices[i] = i;
-                        }
-                    }
-
-                    if (humanPoints.Count < latestPointNum)
-                    {
-                        for (int i = humanPoints.Count; i < latestPointNum; i++)
-                        {
-                            humanPoints.Add(Vector3.zero);
-                            uvPoints.Add(Vector2.zero);
-                        }
-                    }
-
-                    latestPointNum = humanPoints.Count;
-
-                    mesh.SetVertices(humanPoints);
-                    mesh.SetIndices(indices, MeshTopology.Points, 0);
-                    if (colorDisplay)
-                    {
-                        mesh.SetUVs(0, uvPoints);
-                    }
+                    UpdateMesh();
                 }
             }
             else
             {
                 SetMeshRenderer(false);
+            }
+        }
+
+        private void UpdateMesh()
+        {
+            if (humanPoints.Count > latestPointNum)
+            {
+                System.Array.Resize(ref indices, humanPoints.Count);
+                for (var i = latestPointNum; i < humanPoints.Count; i++)
+                {
+                    indices[i] = i;
+                }
+            }
+
+            if (humanPoints.Count < latestPointNum)
+            {
+                for (int i = humanPoints.Count; i < latestPointNum; i++)
+                {
+                    humanPoints.Add(Vector3.zero);
+                    uvPoints.Add(Vector2.zero);
+                }
+            }
+
+            latestPointNum = humanPoints.Count;
+
+            mesh.SetVertices(humanPoints);
+            mesh.SetIndices(indices, MeshTopology.Points, 0);
+            if (colorDisplay)
+            {
+                mesh.SetUVs(0, uvPoints);
             }
         }
 

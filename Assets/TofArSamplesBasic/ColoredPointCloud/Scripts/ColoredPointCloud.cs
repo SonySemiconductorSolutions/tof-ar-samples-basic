@@ -81,12 +81,19 @@ namespace TofArSamples.ColoredPointCloud
                 lock (processLock)
                 {
                     //apply the color frame to the point cloud mesh
-                    depthToColor.depthFrame = TofArTofManager.Instance.DepthData.Data;
-                    depthToColor = TofArCoordinateManager.Instance.GetProperty<DepthToColorProperty>(depthToColor);
-                    if (depthToColor == null)
+                    if (TofArTofManager.Instance.DepthData != null)
                     {
-                        depthToColor = new DepthToColorProperty();
-                        return;
+                        depthToColor.depthFrame = TofArTofManager.Instance.DepthData.Data;
+                        if (depthConfig.width * depthConfig.height == depthToColor.depthFrame.Length)
+                        {
+                            depthToColor = TofArCoordinateManager.Instance.GetProperty<DepthToColorProperty>(depthToColor);
+                            if (depthToColor == null)
+                            {
+                                depthToColor = new DepthToColorProperty();
+                                return;
+                            }
+                        }
+                        
                     }
                 }
                 lock (meshLock)
@@ -96,23 +103,30 @@ namespace TofArSamples.ColoredPointCloud
                     int colorwidth = TofArColorManager.Instance.CurrentYWidth;
                     int colorheight = TofArColorManager.Instance.YHeight;
                     var colorPoints = depthToColor.colorPoints;
-                    for (int y = 0; y < depthHeight; y++)
+                    if (colorPoints.Length == depthWidth * depthHeight)
                     {
-                        for (int x = 0; x < depthWidth; x++)
+                        for (int y = 0; y < depthHeight; y++)
                         {
-                            int depthIndex = (y * depthWidth + x);
-                            if (depthIndex >= depthWidth * depthHeight)
+                            for (int x = 0; x < depthWidth; x++)
                             {
-                                continue;
-                            }
+                                int depthIndex = (y * depthWidth + x);
+                                if (depthIndex >= depthWidth * depthHeight)
+                                {
+                                    continue;
+                                }
 
-                            if (colorPoints[depthIndex].x >= 0 && colorPoints[depthIndex].y >= 0 && colorPoints[depthIndex].x < colorwidth && colorPoints[depthIndex].y < colorheight)
-                            {
-                                meshUVs[depthIndex] = (new Vector2((float)colorPoints[depthIndex].x / colorwidth, (float)colorPoints[depthIndex].y / colorheight));
+                                if (colorPoints[depthIndex].x >= 0 && colorPoints[depthIndex].y >= 0 && colorPoints[depthIndex].x < colorwidth && colorPoints[depthIndex].y < colorheight)
+                                {
+                                    meshUVs[depthIndex] = (new Vector2((float)colorPoints[depthIndex].x / colorwidth, (float)colorPoints[depthIndex].y / colorheight));
+                                }
                             }
                         }
                     }
-                    mesh.SetUVs(0, meshUVs);
+                    
+                    if (meshUVs.Length == mesh.vertexCount)
+                    {
+                        mesh.SetUVs(0, meshUVs);
+                    }
                 }
             }
             else

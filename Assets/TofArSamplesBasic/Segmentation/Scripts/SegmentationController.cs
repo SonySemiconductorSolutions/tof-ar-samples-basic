@@ -141,13 +141,10 @@ namespace TofArSamples.Segmentation
             this.context = SynchronizationContext.Current;
             yield return new WaitForEndOfFrame();
 
-            
-
             if (AutoStartHuman || AutoStartSky)
             {
                 humanSegmentationController.HumanSegmentationEnabled = AutoStartHuman;
                 skySegmentationController.SkySegmentationEnabled = AutoStartSky;
-                segmentationManagerController.StartStream();
             }
         }
 

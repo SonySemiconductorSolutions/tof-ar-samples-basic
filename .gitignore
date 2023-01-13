@@ -81,3 +81,6 @@ Assets/Resources/BuildDateTime.txt*
 
 Assets/TofAr
 Assets/TofAr.meta
+
+*BurstDebugInformation_DoNotShip
+*BackUpThisFolder_ButDontShipItWithYourGame

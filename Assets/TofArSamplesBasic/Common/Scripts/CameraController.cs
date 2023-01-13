@@ -42,11 +42,15 @@ namespace TofArSamples
 
         private bool orientationChanged = true;
 
+        private float dpi;
+
         void Start()
         {
             initialPosition = Camera.main.transform.position;
             initialRotation = Camera.main.transform.rotation;
             landscapeFov = Camera.main.fieldOfView;
+
+            dpi = GetDPI();
         }
 
         private void OnEnable()
@@ -123,7 +127,7 @@ namespace TofArSamples
                 }
                 else if (this.leftDown == lDown) // moved?
                 {
-                    var val = (new Vector2(Input.mousePosition.x, Input.mousePosition.y) - previousTouchPoint) / Screen.dpi;
+                    var val = (new Vector2(Input.mousePosition.x, Input.mousePosition.y) - previousTouchPoint) / dpi;
                     val *= rotateParam * Mathf.Rad2Deg;
                     previousTouchPoint = Input.mousePosition;
 
@@ -144,7 +148,7 @@ namespace TofArSamples
                 else if (this.middleDown == mDown) // moved?
                 {
                     var center = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                    var moveXY = -moveParam * ((center - previousCenterPoint) / Screen.dpi);
+                    var moveXY = -moveParam * ((center - previousCenterPoint) / dpi);
 
                     previousCenterPoint = center;
 
@@ -189,7 +193,7 @@ namespace TofArSamples
                         return;
                     }
 
-                    var val = (touch.position - previousTouchPoint) / Screen.dpi;
+                    var val = (touch.position - previousTouchPoint) / dpi;
                     val *= rotateParam * Mathf.Rad2Deg;
                     previousTouchPoint = touch.position;
 
@@ -215,12 +219,12 @@ namespace TofArSamples
                 else if (touch1.phase == TouchPhase.Moved && touch2.phase == TouchPhase.Moved)
                 {
                     var newDist = Vector2.Distance(touch1.position, touch2.position);
-                    var moveZ = zoomParam * ((newDist - previousDist) / Screen.dpi);
+                    var moveZ = zoomParam * ((newDist - previousDist) / dpi);
 
                     previousDist = newDist;
 
                     var center = Vector2.Lerp(touch1.position, touch2.position, 0.5f);
-                    var moveXY = -moveParam * ((center - previousCenterPoint) / Screen.dpi);
+                    var moveXY = -moveParam * ((center - previousCenterPoint) / dpi);
 
                     previousCenterPoint = center;
 
@@ -296,6 +300,40 @@ namespace TofArSamples
                 }
             }
             return result;
+        }
+
+        private float GetDPI()
+        {
+            if (TofArManager.Instance != null)
+            {
+                var deviceCapability = TofArManager.Instance.GetProperty<DeviceCapabilityProperty>();
+                string modelName = deviceCapability.modelName;
+
+                if (modelName.Equals("iPhone14,7")) //iPhone 14 6.1inch 1170x2532
+                {
+                    return 457;
+                }
+                else if (modelName.Equals("iPhone14,8")) //iPhone 14 Plus 6.7inch 1284x2778
+                {
+                    return 457;
+                }
+                else if (modelName.Equals("iPhone15,2")) //iPhone 14 Pro 6.1inch 1179x2556
+                {
+                    return 461;
+                }
+                else if (modelName.Equals("iPhone15,3")) //iPhone 14 Pro Max 6.7inch 1290x2796
+                {
+                    return 460;
+                }
+                else
+                {
+                    return Screen.dpi;
+                }
+            }
+            else
+            {
+                return Screen.dpi;
+            }
         }
     }
 }

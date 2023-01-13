@@ -197,43 +197,11 @@ namespace TofArSamples.Tof
             DepthHeight = config.height;
         }
 
-        private void Depth_FrameArrived(object sender)
+        private void SaveData(int rx, int ry, short[] depth, short[] confidence)
         {
-            var depth = TofArTofManager.Instance?.DepthData?.Data;
-            if (depth == null)
-            {
-                return;
-            }
             bool depthOk = depth.Length > 0;
-
-            var confidence = TofArTofManager.Instance?.ConfidenceData?.Data;
-            if (confidence == null)
-            {
-                return;
-            }
             bool confidenceOk = confidence.Length > 0;
 
-            int rx = this.IsFullScreenRegion ? 0 : (int)pixelPosition.x - RegionWidth / 2;
-            int ry = this.IsFullScreenRegion ? 0 : (int)pixelPosition.y - RegionWidth / 2;
-            if (rx < 0)
-            {
-                rx = 0;
-            }
-
-            if (ry < 0)
-            {
-                ry = 0;
-            }
-
-            if (rx + RegionWidth >= DepthWidth)
-            {
-                rx = DepthWidth - RegionWidth - 1;
-            }
-
-            if (ry + RegionWidth >= DepthHeight)
-            {
-                ry = DepthHeight - RegionWidth - 1;
-            }
             //Debug.LogFormat("rx {0} ry {1} touchPoint {2} image {3},{4}", rx, ry, touchedPoint, DepthWidth, DepthHeight);
             var workingAreaDepth = new short[this.IsFullScreenRegion ? DepthWidth * DepthHeight : RegionWidth * RegionWidth];
             var workingAreaConfidence = new short[workingAreaDepth.Length];
@@ -279,23 +247,62 @@ namespace TofArSamples.Tof
                     string confPath = dataPath + directoryName + "/" + nframesSaved + "_conf.raw";
 
                     context.Post((s) =>
-                       {
-                           var saveSuccess = this.SaveDepthData(workingAreaDepth, depthPath);
-                           saveSuccess &= this.SaveConfidenceData(workingAreaConfidence, confPath);
-                           if (saveSuccess)
-                           {
-                               if (nframesSaved == SaveFrames)
-                               {
-                                   ShowDialog.Invoke("successfully saved data to " + depthPath);
-                               }
-                           }
-                           else
-                           {
-                               ShowDialog.Invoke("failed to save data to " + depthPath);
-                           }
-                       }, null);
+                    {
+                        var saveSuccess = this.SaveDepthData(workingAreaDepth, depthPath);
+                        saveSuccess &= this.SaveConfidenceData(workingAreaConfidence, confPath);
+                        if (saveSuccess)
+                        {
+                            if (nframesSaved == SaveFrames)
+                            {
+                                ShowDialog.Invoke("successfully saved data to " + depthPath);
+                            }
+                        }
+                        else
+                        {
+                            ShowDialog.Invoke("failed to save data to " + depthPath);
+                        }
+                    }, null);
                 }
             }
+        }
+
+        private void Depth_FrameArrived(object sender)
+        {
+            var depth = TofArTofManager.Instance?.DepthData?.Data;
+            if (depth == null)
+            {
+                return;
+            }
+            
+            var confidence = TofArTofManager.Instance?.ConfidenceData?.Data;
+            if (confidence == null)
+            {
+                return;
+            }
+            
+            int rx = this.IsFullScreenRegion ? 0 : (int)pixelPosition.x - RegionWidth / 2;
+            int ry = this.IsFullScreenRegion ? 0 : (int)pixelPosition.y - RegionWidth / 2;
+            if (rx < 0)
+            {
+                rx = 0;
+            }
+
+            if (ry < 0)
+            {
+                ry = 0;
+            }
+
+            if (rx + RegionWidth >= DepthWidth)
+            {
+                rx = DepthWidth - RegionWidth - 1;
+            }
+
+            if (ry + RegionWidth >= DepthHeight)
+            {
+                ry = DepthHeight - RegionWidth - 1;
+            }
+
+            SaveData(rx, ry, depth, confidence);
         }
 
 

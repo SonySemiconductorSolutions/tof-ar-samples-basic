@@ -17,13 +17,11 @@ namespace TofArSamples.HumanPointCloud
     {
         private HumanPointCloud humanPointCloud;
         private HumanSegmentationController segmentationController;
-        private SegmentationManagerController segmentationManagerController;
 
         protected void Awake()
         {
             humanPointCloud = FindObjectOfType<HumanPointCloud>();
             segmentationController = FindObjectOfType<HumanSegmentationController>();
-            segmentationManagerController = FindObjectOfType<SegmentationManagerController>();
         }
 
         protected override void Start()
@@ -31,7 +29,6 @@ namespace TofArSamples.HumanPointCloud
             base.Start();
             //make sure we start with human segmentation on
             segmentationController.HumanSegmentationEnabled = true;
-            segmentationManagerController.StartStream();
         }
 
         public const float thresholdMax = 255;
