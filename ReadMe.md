@@ -231,8 +231,8 @@ ToF AR Development documents are also available on Developer World.
 
 Operation was verified in the following environment:
 
-* Unity Version  : 2021.3.11f1
-* ToF AR Version : 1.2.0
+* Unity Version  : 2021.3.18f1
+* ToF AR Version : 1.3.0
 
 
 <a name="notes"></a>

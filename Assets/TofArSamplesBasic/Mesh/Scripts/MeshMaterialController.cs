@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -11,6 +11,7 @@ using TofArSettings;
 using UnityEngine;
 using System.Linq;
 using TofArSettings.Mesh;
+using System;
 
 namespace TofArSamples.Mesh
 {
@@ -65,6 +66,7 @@ namespace TofArSamples.Mesh
                 {
                     index = value;
                     dynamicMesh.material = materials[index];
+
                     OnChangeIndex?.Invoke(value);
                     OnChangeMaterial?.Invoke(materials[index]);
                 }
@@ -75,6 +77,5 @@ namespace TofArSamples.Mesh
         {
             dynamicMesh.enabled = value;
         }
-
     }
 }

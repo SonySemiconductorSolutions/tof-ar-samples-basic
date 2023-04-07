@@ -227,8 +227,8 @@ ToF ARの開発ドキュメントも、Developer Worldで公開しています�
 
 動作検証は、下記の環境で行っています。
 
-* Unity Version  : 2021.3.11f1
-* ToF AR Version : 1.2.0
+* Unity Version  : 2021.3.18f1
+* ToF AR Version : 1.3.0
 
 
 <a name="notes"></a>

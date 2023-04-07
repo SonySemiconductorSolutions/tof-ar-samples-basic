@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -9,22 +9,22 @@ using TofAr.V0.Hand;
 
 namespace TofArSettings.Hand
 {
-    public class GestureFramesForDetectNoHandsController : ControllerBase
+    public class IntervalFrameNotRecogController : ControllerBase
     {
-        public int FramesForDetectNoHands
+        public int IntervalFrameNotRecognized
         {
             get
             {
-                return TofArHandManager.Instance.FramesForDetectNoHands;
+                return TofArHandManager.Instance.IntervalFramesNotRecognized;
             }
 
             set
             {
-                if (FramesForDetectNoHands != value &&
+                if (IntervalFrameNotRecognized != value &&
                     Min <= value && value <= Max)
                 {
-                    TofArHandManager.Instance.FramesForDetectNoHands = value;
-                    OnChange?.Invoke(FramesForDetectNoHands);
+                    TofArHandManager.Instance.IntervalFramesNotRecognized = value;
+                    OnChange?.Invoke(IntervalFrameNotRecognized);
                 }
             }
         }
