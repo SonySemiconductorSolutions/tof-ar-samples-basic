@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -150,11 +150,11 @@ namespace TofArSamples.Tof
                         {
                             if (setting.useDepthInvalidValueConvert == "true")
                             {
-                                invalidValue = int.Parse(setting.depthInvalidValueTo);
+                                invalidValue = int.Parse(setting.depthInvalidValueTo, System.Globalization.CultureInfo.InvariantCulture);
                             }
                             else
                             {
-                                invalidValue = int.Parse(setting.depthInvalidValueFrom);
+                                invalidValue = int.Parse(setting.depthInvalidValueFrom, System.Globalization.CultureInfo.InvariantCulture);
                             }
                         }
                     }
@@ -170,11 +170,11 @@ namespace TofArSamples.Tof
                 {
                     if (jsonValuesOld.useDepthInvalidValueConvert == "true")
                     {
-                        invalidValue = int.Parse(jsonValuesOld.depthInvalidValueTo);
+                        invalidValue = int.Parse(jsonValuesOld.depthInvalidValueTo, System.Globalization.CultureInfo.InvariantCulture);
                     }
                     else
                     {
-                        invalidValue = int.Parse(jsonValuesOld.depthInvalidValueFrom);
+                        invalidValue = int.Parse(jsonValuesOld.depthInvalidValueFrom, System.Globalization.CultureInfo.InvariantCulture);
                     }
                 }
                 else
