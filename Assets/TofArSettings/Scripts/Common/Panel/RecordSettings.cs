@@ -1,14 +1,13 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022 Sony Semiconductor Solutions Corporation.
  *
  */
 
 using TofArSettings.Body;
 using TofArSettings.Color;
 using TofArSettings.Face;
-using TofArSettings.Plane;
 using TofArSettings.Tof;
 using UnityEngine;
 using UnityEngine.Events;
@@ -32,12 +31,6 @@ namespace TofArSettings.UI
         bool tof = true;
 
         /// <summary>
-        /// Use/do not use Hand component
-        /// </summary>
-        [SerializeField]
-        bool hand = false;
-
-        /// <summary>
         /// Use/do not use Body component
         /// </summary>
         [SerializeField]
@@ -48,12 +41,6 @@ namespace TofArSettings.UI
         /// </summary>
         [SerializeField]
         bool face = false;
-
-        /// <summary>
-        /// Use/do not use Plane component
-        /// </summary>
-        [SerializeField]
-        bool plane = false;
 
         const string startText = "Record";
         const string stopText = "Stop";
@@ -122,16 +109,7 @@ namespace TofArSettings.UI
                 controllers.Add(faceRecCtrl);
             }
 
-            if (plane)
-            {
-                var planeRecCtrl = FindObjectOfType<PlaneRecordController>();
-                controllers.Add(planeRecCtrl);
-            }
-
-            if (hand)
-            {
-                addControllersEvent.Invoke();
-            }
+            addControllersEvent.Invoke();
 
             for (int i = 0; i < controllers.Count; i++)
             {

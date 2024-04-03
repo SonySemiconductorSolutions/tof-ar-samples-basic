@@ -41,10 +41,10 @@ namespace TofArSettings.Mesh
         /// </summary>
         void MakeUIReductionLevel()
         {
-            itemReductionLevel = settings.AddItem("Reduction\nLevel",
+            itemReductionLevel = settings.AddItem("Reduction Level",
                 ReductionLevelController.Min, ReductionLevelController.Max,
                 ReductionLevelController.Step, reductionLevelController.ReductionLevel,
-                ChangeReductionLevel);
+                ChangeReductionLevel, -4);
 
             reductionLevelController.OnChange += (val) =>
             {

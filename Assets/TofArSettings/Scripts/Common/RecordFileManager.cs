@@ -1,14 +1,12 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022 Sony Semiconductor Solutions Corporation.
  *
  */
 
 using System;
 using System.Collections;
-using System.IO;
-using System.Linq;
 using TofAr.V0;
 using UnityEngine;
 
@@ -75,17 +73,6 @@ namespace TofArSettings
                         throw new ArgumentException("Arguments must be like this: [tcp|udp|local]:[PORT_NUMBER]");
                     }
                     return $"forward {arguments[0]} {arguments[1]}";
-                case TofArManager.AdbCommand.Mkdir:
-                    if (arguments.Length != 1)
-                    {
-                        throw new ArgumentException("adb mkdir needs two arguments (dst)");
-                    }
-                    // check arguments for absolute path
-                    if (!System.IO.Path.IsPathRooted(arguments[0].Trim('"')))
-                    {
-                        throw new ArgumentException($"src must be absolute path");
-                    }
-                    return $"shell mkdir {arguments[0]}";
                 default:
                     throw new ArgumentException("Invalid adb command");
             }
@@ -143,115 +130,70 @@ namespace TofArSettings
                     throw new System.InvalidOperationException("Invalid adb file");
                 }
 
-                string[] mkdirArguments = new string[1];
-                string androidDirectorySeparatorChar = "/";
-
-                var name = Path.GetFileName(src);
-
-                string detRootDirectoryPath = dst + androidDirectorySeparatorChar + Path.GetFileName(src);
-                mkdirArguments[0] = detRootDirectoryPath;
-                yield return ExecuteExternalProcess(adbPath, TofArManager.AdbCommand.Mkdir, mkdirArguments);
-
-                var subdirectories = GetAllSubdirectories(src);
-                foreach (var directry in subdirectories)
+                psi.FileName = adbPath;
+                psi.CreateNoWindow = true;
+                psi.UseShellExecute = false;
+                psi.RedirectStandardOutput = true;
+                psi.RedirectStandardError = true;
+                try
                 {
-                    mkdirArguments[0] = detRootDirectoryPath + androidDirectorySeparatorChar + Path.GetFileName(directry);
-                    yield return ExecuteExternalProcess(adbPath, TofArManager.AdbCommand.Mkdir, mkdirArguments);
+                    string psiArgs = CheckArguments(TofArManager.AdbCommand.Push, arguments);
+                    psi.Arguments = psiArgs;
+                }
+                catch (ArgumentException e)
+                {
+                    TofArManager.Logger.WriteLog(LogLevel.Debug, $"Failed to copy to device. Reason: {e.Message}");
+                    yield break;
+                }
+                bool threadFinished = false;
+                bool success = true;
+                string processMsg = null;
+                string processError = null;
+
+                System.Threading.Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(() =>
+                {
+                    var process = new System.Diagnostics.Process();
+                    process.OutputDataReceived += Process_OutputDataReceived;
+                    process.ErrorDataReceived += Process_ErrorDataReceived;
+                    process.StartInfo = psi;
+                    process.Start();
+                    process.BeginOutputReadLine();
+                    success = process.WaitForExit(300000);
+
+                    if (!process.HasExited || process.ExitCode != 0)
+                    {
+                        success = false;
+                    }
+
+                    threadFinished = true;
+                }));
+
+                thread.Start();
+
+                while (!threadFinished)
+                {
+                    yield return new WaitForSeconds(0.5f);
                 }
 
-                yield return ExecuteExternalProcess(adbPath, TofArManager.AdbCommand.Push, arguments);
-            }
-        }
+                processError = sbError.ToString();
+                processMsg = sbOutput.ToString();
 
-        private static IEnumerator ExecuteExternalProcess(string adbPath, TofArManager.AdbCommand command, string[] arguments)
-        {
-            var psi = new System.Diagnostics.ProcessStartInfo();
-
-            psi.FileName = adbPath;
-            psi.CreateNoWindow = true;
-            psi.UseShellExecute = false;
-            psi.RedirectStandardOutput = true;
-            psi.RedirectStandardError = true;
-
-            try
-            {
-                string psiArgs = CheckArguments(command, arguments);
-                psi.Arguments = psiArgs;
-            }
-            catch (ArgumentException e)
-            {
-                TofArManager.Logger.WriteLog(LogLevel.Debug, $"Failed to copy to device. Reason: {e.Message}");
-                yield break;
-            }
-
-            bool threadFinished = false;
-            bool success = true;
-            string processMsg = null;
-            string processError = null;
-
-            System.Threading.Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(() =>
-            {
-                var process = new System.Diagnostics.Process();
-                process.OutputDataReceived += Process_OutputDataReceived;
-                process.ErrorDataReceived += Process_ErrorDataReceived;
-                process.StartInfo = psi;
-                process.Start();
-                process.BeginOutputReadLine();
-                success = process.WaitForExit(300000);
-
-                if (!process.HasExited || process.ExitCode != 0)
+                if (processMsg.StartsWith("adb: error:"))
                 {
                     success = false;
                 }
 
-                threadFinished = true;
-            }));
-
-            thread.Start();
-
-            while (!threadFinished)
-            {
-                yield return new WaitForSeconds(0.5f);
-            }
-
-            processError = sbError.ToString();
-            processMsg = sbOutput.ToString();
-
-            if (processMsg.StartsWith("adb: error:"))
-            {
-                success = false;
-            }
-
-            if (!success)
-            {
-                if (processMsg != null)
+                if (!success)
                 {
-                    TofArManager.Logger.WriteLog(LogLevel.Debug, $"Process caused error: {processMsg}");
+                    if (processMsg != null)
+                    {
+                        TofArManager.Logger.WriteLog(LogLevel.Debug, $"Process caused error: {processMsg}");
+                    }
+                    if (processError != null)
+                    {
+                        TofArManager.Logger.WriteLog(LogLevel.Debug, $"Details: {processError}");
+                    }
                 }
-                if (processError != null)
-                {
-                    TofArManager.Logger.WriteLog(LogLevel.Debug, $"Details: {processError}");
-                }
-            }
-        }
-
-        private static string[] GetAllSubdirectories(string folderPath)
-        {
-            try
-            {
-                string[] subdirectories = System.IO.Directory.GetDirectories(folderPath);
-
-                foreach (string subdirectory in subdirectories)
-                {
-                    string[] subdirectoryPaths = GetAllSubdirectories(subdirectory);
-                    subdirectories = subdirectories.Concat(subdirectoryPaths).ToArray();
-                }
-
-                return subdirectories;
-            }
-            catch (Exception e)
-            {
-                return null;
             }
         }
 

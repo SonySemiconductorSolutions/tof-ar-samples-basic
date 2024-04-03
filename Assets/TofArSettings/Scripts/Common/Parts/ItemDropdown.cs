@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -60,21 +60,17 @@ namespace TofArSettings.UI
         /// </summary>
         public string[] Options
         {
-            get
-            {
-                var options = optionsEditable?.Select(x => x.Key);
-                return options?.ToArray();
-            }
+            get {
 
+                string [] options = optionsEditable.Select(x => x.Key).ToArray();
+                return options; 
+            }
             set
             {
-                if (value != null)
+                optionsEditable = new KeyValuePair<string, EditFlags>[value.Length];
+                for (int i = 0; i < optionsEditable.Length; i++)
                 {
-                    optionsEditable = new KeyValuePair<string, EditFlags>[value.Length];
-                    for (int i = 0; i < optionsEditable.Length; i++)
-                    {
-                        optionsEditable[i] = new KeyValuePair<string, EditFlags>(value[i], EditFlags.None);
-                    }
+                    optionsEditable[i] = new KeyValuePair<string, EditFlags>(value[i], EditFlags.None);
                 }
 
                 dialog.ClearOptions();
@@ -84,10 +80,10 @@ namespace TofArSettings.UI
             }
         }
 
-        KeyValuePair<string, EditFlags>[] optionsEditable;
+        KeyValuePair<string, EditFlags> [] optionsEditable;
         public KeyValuePair<string, EditFlags>[] OptionsEditable
         {
-            get { return optionsEditable; }
+            get { return optionsEditable; } 
             set
             {
                 optionsEditable = value;
@@ -257,7 +253,7 @@ namespace TofArSettings.UI
         /// <param name="onRename">Event that is called when dropdown item is renamed</param>
         /// <param name="width">Dropdown width</param>
         public void Init(string title, int relativeFontSize, float fixedTitleWidth,
-            KeyValuePair<string, EditFlags>[] options, int index, ChangeEvent onChange, DeleteEvent onDelete, RenameEvent onRename, float width = 0)
+            KeyValuePair<string, EditFlags> [] options, int index, ChangeEvent onChange, DeleteEvent onDelete, RenameEvent onRename, float width = 0)
         {
             Init(title, relativeFontSize, fixedTitleWidth);
 
@@ -277,16 +273,10 @@ namespace TofArSettings.UI
         /// </summary>
         void ChangeAppearance()
         {
-            if (!txtLabel || !dialog)
-            {
-                return;
-            }
-
-            if (Options != null && Options.Length > 0)
+            if (Options.Length > Index)
             {
                 txtLabel.text = Options[Index];
             }
-
             dialog.ChangeAppearance(index);
         }
     }

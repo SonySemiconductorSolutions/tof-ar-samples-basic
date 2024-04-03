@@ -1,12 +1,10 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022 Sony Semiconductor Solutions Corporation.
  *
  */
 
-using SensCord;
-using TofAr.V0;
 using TofAr.V0.Tof;
 using UnityEngine;
 using FrameRateProperty = TofAr.V0.Tof.FrameRateProperty;
@@ -68,15 +66,7 @@ namespace TofArSettings.Tof
 
         protected override void GetProperty()
         {
-            FrameRateRangeProperty frameRateRange = null;
-            try
-            {
-                frameRateRange = TofArTofManager.Instance.GetProperty<FrameRateRangeProperty>();
-            }
-            catch (ApiException e)
-            {
-                TofArManager.Logger.WriteLog(LogLevel.Debug, TofAr.V0.Utils.FormatException(e));
-            }
+            var frameRateRange = TofArTofManager.Instance.GetProperty<FrameRateRangeProperty>();
             if (frameRateRange == null)
             {
                 return;

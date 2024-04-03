@@ -1,11 +1,10 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022 Sony Semiconductor Solutions Corporation.
  *
  */
 
-using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -25,7 +24,6 @@ namespace TofArSettings.UI
         public UnityAction OnClick;
 
         Button btn;
-        RectTransform rt;
 
         protected override void Awake()
         {
@@ -41,7 +39,6 @@ namespace TofArSettings.UI
 
             // Get UI
             btn = GetComponentInChildren<Button>();
-            rt = btn.GetComponent<RectTransform>();
 
             // Register button event
             btn.onClick.AddListener(() =>
@@ -61,14 +58,6 @@ namespace TofArSettings.UI
             UnityAction onClick)
         {
             base.Init(title, relativeFontSize, fixedTitleWidth);
-
-            if (fixedTitleWidth > 0)
-            {
-                var size = rt.sizeDelta;
-                size.x = fixedTitleWidth;
-                rt.sizeDelta = size;
-            }
-
             OnClick = onClick;
         }
     }

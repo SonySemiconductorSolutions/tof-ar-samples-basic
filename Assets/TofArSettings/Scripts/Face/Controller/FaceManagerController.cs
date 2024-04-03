@@ -6,6 +6,7 @@
  */
 
 using System.Collections;
+using TofAr.V0.Color;
 using TofAr.V0.Tof;
 using TofAr.V0.Face;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace TofArSettings.Face
 {
     public class FaceManagerController : ControllerBase
     {
+        private FaceRuntimeController runtimeController;
         private FaceEstimator faceEstimator;
 
         protected void Awake()
@@ -26,10 +28,9 @@ namespace TofArSettings.Face
         /// </summary>
         public void StartStream()
         {
-            var mgr = TofArFaceManager.Instance;
-            if (mgr && !mgr.IsStreamActive)
+            if (!TofArFaceManager.Instance.IsStreamActive)
             {
-                mgr.StartStream();
+                TofArFaceManager.Instance.StartStream();
                 OnStreamStartStatusChanged?.Invoke(true);
             }
         }
@@ -39,10 +40,9 @@ namespace TofArSettings.Face
         /// </summary>
         public void StopStream()
         {
-            var mgr = TofArFaceManager.Instance;
-            if (mgr && mgr.IsStreamActive)
+            if (TofArFaceManager.Instance.IsStreamActive)
             {
-                mgr.StopStream();
+                TofArFaceManager.Instance.StopStream();
                 OnStreamStartStatusChanged?.Invoke(false);
             }
         }
@@ -68,8 +68,7 @@ namespace TofArSettings.Face
 
         public bool IsStreamActive()
         {
-            var mgr = TofArFaceManager.Instance;
-            return (mgr && mgr.IsStreamActive);
+            return TofArFaceManager.Instance.IsStreamActive;
         }
 
         /// <summary>
@@ -84,9 +83,7 @@ namespace TofArSettings.Face
         /// <param name="colorTexture">Color texture</param>
         public void OnColorStreamStarted(object sender, Texture2D colorTexture)
         {
-            var mgr = TofArFaceManager.Instance;
-            if (mgr && mgr.DetectorType == FaceDetectorType.External &&
-                faceEstimator.InputSourceType == InputSource.Color)
+            if (TofArFaceManager.Instance.DetectorType == FaceDetectorType.External && faceEstimator.InputSourceType == InputSource.Color)
             {
                 StartCoroutine(WaitAndStartFace());
             }
@@ -101,9 +98,7 @@ namespace TofArSettings.Face
         /// <param name="pointCloudData"></param>
         public void OnTofStreamStarted(object sender, Texture2D depthTexture, Texture2D confidenceTexture, PointCloudData pointCloudData)
         {
-            var mgr = TofArFaceManager.Instance;
-            if (mgr && mgr.DetectorType == FaceDetectorType.External &&
-                faceEstimator.InputSourceType == InputSource.Confidence)
+            if ((TofArFaceManager.Instance.DetectorType == FaceDetectorType.External && faceEstimator.InputSourceType == InputSource.Confidence))
             {
                 StartCoroutine(WaitAndStartFace());
             }
@@ -115,9 +110,7 @@ namespace TofArSettings.Face
         /// <param name="sender">TofArColorManager</param>
         public void OnColorStreamStopped(object sender)
         {
-            var mgr = TofArFaceManager.Instance;
-            if (mgr && mgr.DetectorType == FaceDetectorType.External &&
-                faceEstimator.InputSourceType == InputSource.Color)
+            if (TofArFaceManager.Instance.DetectorType == FaceDetectorType.External && faceEstimator.InputSourceType == InputSource.Color)
             {
                 StopStream();
             }
@@ -129,9 +122,7 @@ namespace TofArSettings.Face
         /// <param name="sender">TofArTofManager</param>
         public void OnTofStreamStopped(object sender)
         {
-            var mgr = TofArFaceManager.Instance;
-            if (mgr && mgr.DetectorType == FaceDetectorType.External &&
-                faceEstimator.InputSourceType == InputSource.Confidence)
+            if ((TofArFaceManager.Instance.DetectorType == FaceDetectorType.External && faceEstimator.InputSourceType == InputSource.Confidence))
             {
                 StopStream();
             }

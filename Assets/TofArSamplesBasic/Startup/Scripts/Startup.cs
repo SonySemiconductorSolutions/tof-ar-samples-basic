@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -117,10 +117,10 @@ namespace TofArSamples.Startup
             }
 
             // Destroy each component
-            var mgrList = FindObjectsOfType<TofArManager>();
-            foreach(var obj in mgrList)
+            var mgr = TofArManager.Instance;
+            if (mgr)
             {
-                Destroy(obj.gameObject);
+                Destroy(mgr.gameObject);
             }
 
             var bodyMgr = TofArBodyManager.Instance;
@@ -171,10 +171,10 @@ namespace TofArSamples.Startup
                 Destroy(faceMgr.gameObject);
             }
 
-            var tofMgrList = FindObjectsOfType<TofArTofManager>();
-            foreach (var obj in tofMgrList)
+            var tofMgr = TofArTofManager.Instance;
+            if (tofMgr)
             {
-                Destroy(obj.gameObject);
+                Destroy(tofMgr.gameObject);
             }
 
             destroyTofArEvent.Invoke();

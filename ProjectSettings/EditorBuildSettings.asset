@@ -6,63 +6,57 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/TofArSamplesBasic/Startup/Startup.unity
+    path: Assets/TofARSamplesBasic/Startup/Startup.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/Color/Color.unity
+    path: Assets/TofARSamplesBasic/Color/Color.unity
     guid: de24ca7ce4b474ca1b90f7d49776d3a4
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/ColorDepth/ColorDepth.unity
+    path: Assets/TofARSamplesBasic/ColorDepth/ColorDepth.unity
     guid: f1e7cb63e6c8143b081c4c4a8f1bee41
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/Hand/Hand.unity
+    path: Assets/TofARSamplesBasic/Hand/Hand.unity
     guid: 6bd33267ade6f49d382c0c1d41a9519b
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/ColorDepth/BasicStream.unity
+    path: Assets/TofARSamplesBasic/ColorDepth/BasicStream.unity
     guid: 968613a73086d4ac1a59d0a18644898f
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/Segmentation/Segmentation.unity
+    path: Assets/TofARSamplesBasic/Segmentation/Segmentation.unity
     guid: 70721e6b9a9d1624c89fa08a6fbeba75
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/ColoredPointCloud/ColoredPointCloud.unity
+    path: Assets/TofARSamplesBasic/ColoredPointCloud/ColoredPointCloud.unity
     guid: 9f4365353ff6dac409a5d0d3d0f06b6d
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/HumanPointCloud/HumanPointCloud.unity
+    path: Assets/TofARSamplesBasic/HumanPointCloud/HumanPointCloud.unity
     guid: 8221bd1f1ab115d40bbeba16900bc027
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/Body/Body.unity
+    path: Assets/TofARSamplesBasic/Body/Body.unity
     guid: 7a94c2c146d40154e8d6113bcf602aa8
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/Body/ColorBody.unity
+    path: Assets/TofARSamplesBasic/Body/ColorBody.unity
     guid: 9297d16ecb125a743a0c2c13586dd1f7
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/Mesh/ColorHandOcclusion.unity
+    path: Assets/TofARSamplesBasic/Mesh/ColorHandOcclusion.unity
     guid: 34426318c47d5f64b995826802eeb406
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/Tof/DepthConfidence.unity
+    path: Assets/TofARSamplesBasic/Tof/DepthConfidence.unity
     guid: 527c6f30144073d46957a2de06447eef
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/Mesh/LiveMeshOcclusion.unity
+    path: Assets/TofARSamplesBasic/Mesh/LiveMeshOcclusion.unity
     guid: e90cf9361a42bfe4d95e7db8c93f2822
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/Tof/PointCloud.unity
+    path: Assets/TofARSamplesBasic/Tof/PointCloud.unity
     guid: bad6f2908ec0ad142ad22b47cc1940b5
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/MarkRecog/HandMark.unity
+    path: Assets/TofARSamplesBasic/MarkRecog/HandMark.unity
     guid: 1ce36a667bc8c7649bd3e10656693001
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/MarkRecog/ColorHandMark.unity
+    path: Assets/TofARSamplesBasic/MarkRecog/ColorHandMark.unity
     guid: c21f68e719e69d54b9e4bdd0ac1eb61a
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/SLAM/SLAM.unity
+    path: Assets/TofARSamplesBasic/SLAM/SLAM.unity
     guid: 5a6818baf42302143bd51118c5c8b0d9
   - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/Face/Face.unity
+    path: Assets/TofARSamplesBasic/Face/Face.unity
     guid: 1e5af36c39b73254980a93467f141acb
-  - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/Plane/Plane.unity
-    guid: 18420bbe937dd2946b8ded10e35ec0fc
-  - enabled: 1
-    path: Assets/TofArSamplesBasic/SamplesBasic/Recorder/Recorder.unity
-    guid: 99eebd8a4816a4cd195ddff4450e7761
   m_configObjects: {}

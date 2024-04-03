@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -13,9 +13,10 @@ namespace TofArSettings.Mesh
 {
     public class MeshRecPlayerController : RecPlayerController
     {
+
         public override SettingsBase.ComponentType ComponentType => SettingsBase.ComponentType.Mesh;
         public override bool HasDropdown => false;
-
+        
         private MeshManagerController managerController;
 
         private void Awake()
@@ -25,46 +26,41 @@ namespace TofArSettings.Mesh
 
         protected override void PlayPrep_internal()
         {
-            var mgr = TofArMeshManager.Instance;
-            if (mgr)
-            {
-                mgr.StopStream();
-                mgr.StopPlayback();
-            }
+            TofArMeshManager.Instance.StopStream();
+            TofArMeshManager.Instance.StopPlayback();
         }
 
         protected override bool Play_internal(string fileName)
         {
-            if (managerController && managerController.IsStreamActive())
+            if (managerController.IsStreamActive())
             {
-                TofArMeshManager.Instance?.StartPlayback();
+                TofArMeshManager.Instance.StartPlayback();
             }
-
             return true;
         }
 
         protected override void Pause_internal()
         {
             Debug.Log("Mesh Pause");
-            TofArMeshManager.Instance?.PauseStream();
+            TofArMeshManager.Instance.PauseStream();
         }
 
         protected override void UnPause_internal()
         {
-            TofArMeshManager.Instance?.UnpauseStream();
+            TofArMeshManager.Instance.UnpauseStream();
             Debug.Log("Mesh UnPause");
         }
 
         protected override void Stop_internal()
         {
-            TofArMeshManager.Instance?.StopPlayback();
+            TofArMeshManager.Instance.StopPlayback();
         }
 
         protected override void StopCleanup_internal()
         {
-            if (managerController && managerController.IsStreamActive())
+            if (managerController.IsStreamActive())
             {
-                TofArMeshManager.Instance?.StartStream();
+                TofArMeshManager.Instance.StartStream();
             }
         }
 

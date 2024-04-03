@@ -24,10 +24,8 @@ namespace TofArSettings.General
         private DependendStreamCameraApiHandler componentCtrl;
 
         MirrorSettingsController mirrorSettingsCtrl;
-        InternalSessionSettingsController internalSessionSettingsCtrl;
 
         UI.ItemToggle itemMirror;
-        UI.ItemToggle itemInternalSession;
 
 
         protected override void Start()
@@ -35,7 +33,6 @@ namespace TofArSettings.General
             // Set UI order
             uiOrder = new UnityAction[]
             {
-                MakeUIInternalSessionSettings,
                 MakeUICameraApi,
                 MakeUIFramerate,
                 MakeUIDepthFilteringMode,
@@ -54,22 +51,7 @@ namespace TofArSettings.General
             mirrorSettingsCtrl = GetComponent<MirrorSettingsController>();
             controllers.Add(mirrorSettingsCtrl);
 
-            internalSessionSettingsCtrl = GetComponent<InternalSessionSettingsController>();
-            controllers.Add(internalSessionSettingsCtrl);
-
             base.Start();
-        }
-
-        private void OnEnable()
-        {
-            TofArManager.Instance?.postInternalSessionStart.AddListener(OnInternalSessionStarted);
-            TofArManager.Instance?.postInternalSessionStop.AddListener(OnInternalSessionStopped);
-        }
-
-        private void OnDisable()
-        {
-            TofArManager.Instance?.postInternalSessionStart.RemoveListener(OnInternalSessionStarted);
-            TofArManager.Instance?.postInternalSessionStop.RemoveListener(OnInternalSessionStopped);
         }
 
         /// <summary>
@@ -80,18 +62,18 @@ namespace TofArSettings.General
             if (TofArManager.Instance.UsingIos)
             {
                 // ToFAR Session Framerate
-                itemTofArFramerate = settings.AddItem("ToFAR\nFramerate",
+                itemTofArFramerate = settings.AddItem("ToFAR Framerate",
                     TofArFramerateController.FramerateMin,
                     TofArFramerateController.FramerateMax,
                     TofArFramerateController.FramerateStep,
-                    tofArFramerateCtrl.Framerate, ChangeTofArFramerate, -2);
+                    tofArFramerateCtrl.Framerate, ChangeTofArFramerate, -4);
 
                 tofArFramerateCtrl.OnChangeFramerate += (val) =>
                 {
                     itemTofArFramerate.Value = val;
                 };
 
-                itemTofArFramerate.Interactable = cameraApiCtrl.CameraApi != IosCameraApi.AvFoundation && TofArManager.Instance.InternalSessionStarted;
+                itemTofArFramerate.Interactable = cameraApiCtrl.CameraApi != IosCameraApi.AvFoundation;
             }
         }
 
@@ -100,21 +82,15 @@ namespace TofArSettings.General
             if (TofArManager.Instance.UsingIos)
             {
                 // ToFAR Session Framerate
-                itemCameraApi = settings.AddItem("Camera API", cameraApiCtrl.ApiNames,
-                    cameraApiCtrl.ApiIndex, OnChangeCameraApi);
+                itemCameraApi = settings.AddItem("Camera API", cameraApiCtrl.ApiNames, cameraApiCtrl.ApiIndex, OnChangeCameraApi);
 
                 cameraApiCtrl.OnChangeApi += (idx) =>
                 {
                     itemCameraApi.Index = idx;
                 };
 
-                if (componentCtrl)
-                {
-                    componentCtrl.AddDropdown(itemCameraApi, ComponentType.Color);
-                    componentCtrl.AddDropdown(itemCameraApi, ComponentType.Tof);
-                }
-
-                itemCameraApi.Interactable = TofArManager.Instance.InternalSessionStarted;
+                componentCtrl.AddDropdown(itemCameraApi, ComponentType.Color);
+                componentCtrl.AddDropdown(itemCameraApi, ComponentType.Tof);
             }
         }
 
@@ -123,15 +99,14 @@ namespace TofArSettings.General
             if (TofArManager.Instance.UsingIos)
             {
                 // ToFAR Session Framerate
-                itemFiltering = settings.AddItem("Depth Filtering", depthFilterCtrl.DepthFilteringModeNames,
-                    depthFilterCtrl.ModeIndex, OnChangeDepthFilteringMode);
+                itemFiltering = settings.AddItem("Depth Filtering", depthFilterCtrl.DepthFilteringModeNames, depthFilterCtrl.ModeIndex, OnChangeDepthFilteringMode);
 
                 depthFilterCtrl.OnChangeDepthFilteringMode += (idx) =>
                 {
                     itemFiltering.Index = idx;
                 };
 
-                itemFiltering.Interactable = cameraApiCtrl.CameraApi == IosCameraApi.AvFoundation && TofArManager.Instance.InternalSessionStarted;
+                itemFiltering.Interactable = cameraApiCtrl.CameraApi == IosCameraApi.AvFoundation;
             }
         }
 
@@ -152,30 +127,12 @@ namespace TofArSettings.General
         void MakeUIMirrorSettings()
         {
             // Mirroring settings
-            itemMirror = settings.AddItem("Enable Mirroring", mirrorSettingsCtrl.OnOff, ChangeMirrorHorizontal);
+            itemMirror = settings.AddItem("Enable Mirroring", mirrorSettingsCtrl.OnOff, ChangeMirrorHorizontal, -4);
 
             mirrorSettingsCtrl.OnChangeMirrorSettings += (isMirroring) =>
             {
                 itemMirror.OnOff = isMirroring;
             };
-
-            itemMirror.Interactable = TofArManager.Instance.InternalSessionStarted;
-        }
-
-        /// <summary>
-        /// Make Internal Session UI
-        /// </summary>
-        void MakeUIInternalSessionSettings()
-        {
-#if UNITY_EDITOR
-            // Internal session settings
-            itemInternalSession = settings.AddItem("Enable Internal Session", TofArManager.Instance.InternalSessionStarted, ChangeInternalSessionState);
-            
-            internalSessionSettingsCtrl.OnChangeInternalSessionSettings += (isInternalSessionOn) =>
-            {
-                itemInternalSession.OnOff = isInternalSessionOn;
-            };
-#endif
         }
 
         /// <summary>
@@ -198,36 +155,6 @@ namespace TofArSettings.General
             depthFilterCtrl.ModeIndex = index;
         }
 
-        private void OnInternalSessionStarted()
-        {
-            ToggleItemsInteractability(true);
-        }
-
-        private void OnInternalSessionStopped()
-        {
-            ToggleItemsInteractability(false);
-        }
-
-        private void ToggleItemsInteractability(bool interactable)
-        {
-            if(itemCameraApi != null)
-            {
-                itemCameraApi.Interactable = interactable;
-            }
-            if (itemFiltering!= null)
-            {
-                itemFiltering.Interactable = interactable;
-            }
-            if (itemMirror != null)
-            {
-                itemMirror.Interactable = interactable;
-            }
-            if (itemTofArFramerate != null)
-            {
-                itemTofArFramerate.Interactable = interactable;
-            }
-        }
-
         /// <summary>
         /// Change Mirroring settings
         /// </summary>
@@ -235,15 +162,6 @@ namespace TofArSettings.General
         void ChangeMirrorHorizontal(bool val)
         {
             mirrorSettingsCtrl.OnOff = val;
-        }
-
-        /// <summary>
-        /// Change Internal Session on or off
-        /// </summary>
-        /// <param name="val">On/Off Internal Session</param>
-        void ChangeInternalSessionState(bool val)
-        {
-            internalSessionSettingsCtrl.OnOff = val;
         }
 
     }

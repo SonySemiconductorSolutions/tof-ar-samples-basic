@@ -31,7 +31,6 @@ namespace TofArSettings.UI
             {
                 if (value > 0)
                 {
-                    inputParentRt.sizeDelta = new Vector2(value, inputParentRt.sizeDelta.y);
                     inputRt.sizeDelta = new Vector2(value, inputRt.sizeDelta.y);
                 }
             }
@@ -148,7 +147,6 @@ namespace TofArSettings.UI
 
         InputField inputField;
         RectTransform inputRt;
-        RectTransform inputParentRt;
         bool isNum = false;
 
         protected override void Awake()
@@ -163,7 +161,6 @@ namespace TofArSettings.UI
             // Get UI
             inputField = GetComponentInChildren<InputField>();
             inputRt = inputField.GetComponent<RectTransform>();
-            inputParentRt = inputRt.transform.parent.GetComponent<RectTransform>();
             foreach (var txt in GetComponentsInChildren<Text>())
             {
                 if (txt.name.Contains("Range"))
@@ -267,13 +264,9 @@ namespace TofArSettings.UI
 
             // Calculate and set the overall size
             var rt = GetComponent<RectTransform>();
-            float w = titleRt.sizeDelta.x + inputRt.sizeDelta.x;
             var layout = GetComponent<HorizontalOrVerticalLayoutGroup>();
-            if (layout)
-            {
-                w += layout.spacing + layout.padding.left + layout.padding.right;
-            }
-
+            float w = titleRt.sizeDelta.x + inputRt.sizeDelta.x + layout.spacing +
+                layout.padding.left + layout.padding.right;
             rt.sizeDelta = new Vector2(w, rt.sizeDelta.y);
         }
 

@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -18,7 +18,8 @@ namespace TofArSettings
         {
             if (TofArManager.Instance != null)
             {
-                SetText(TofArManager.Instance.Version);
+                var txt = GetComponent<Text>();
+                txt.text = $"ToF AR version : v{TofArManager.Instance.Version}";
             }
         }
 
@@ -28,10 +29,8 @@ namespace TofArSettings
         /// <param name="text"></param>
         public void SetText(string text)
         {
-            string distribution = (TofArManager.Instance.RuntimeSettings.distribution == Distribution.Pro) ? " Pro" : string.Empty;
-
             var txt = GetComponent<Text>();
-            txt.text = $"ToF AR{distribution} version : v{text}";
+            txt.text = $"ToF AR version : v{text}";
         }
     }
 }

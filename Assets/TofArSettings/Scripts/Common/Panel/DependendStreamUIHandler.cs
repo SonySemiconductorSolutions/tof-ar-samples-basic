@@ -65,9 +65,6 @@ namespace TofArSettings
 
             TofArTofManager.OnStreamStarted += OnTofStreamStarted;
             TofArTofManager.OnStreamStopped += OnTofStreamStopped;
-
-            TofArManager.Instance?.postInternalSessionStart.AddListener(OnInternalSessionStarted);
-            TofArManager.Instance?.postInternalSessionStop.AddListener(OnInternalSessionStopped);
         }
 
         protected virtual void OnDisable()
@@ -77,9 +74,6 @@ namespace TofArSettings
 
             TofArTofManager.OnStreamStarted -= OnTofStreamStarted;
             TofArTofManager.OnStreamStopped -= OnTofStreamStopped;
-
-            TofArManager.Instance?.postInternalSessionStart.RemoveListener(OnInternalSessionStarted);
-            TofArManager.Instance?.postInternalSessionStop.RemoveListener(OnInternalSessionStopped);
         }
 
         private void OnStreamStarted(object sender)
@@ -120,7 +114,17 @@ namespace TofArSettings
             bool tofStopped = IsDependendStreamStopped(SettingsBase.ComponentType.Tof);
             bool colorStopped = IsDependendStreamStopped(SettingsBase.ComponentType.Color);
 
-            ToggleButtonsInteractablity(tofStopped && colorStopped);
+            if (buttons != null)
+            {
+                foreach (var btn in buttons)
+                {
+                    if (btn != null && btn.isActiveAndEnabled)
+                    {
+                        btn.Interactable = tofStopped && colorStopped;
+
+                    }
+                }
+            }
         }
 
         private void UpdateUIForManager(SettingsBase.ComponentType type)
@@ -197,30 +201,6 @@ namespace TofArSettings
 
 
             return true;
-        }
-
-        private void OnInternalSessionStarted()
-        {
-            ToggleButtonsInteractablity(true);
-        }
-
-        private void OnInternalSessionStopped()
-        {
-            ToggleButtonsInteractablity(false);
-        }
-
-        private void ToggleButtonsInteractablity(bool isInteractable)
-        {
-            if (buttons != null)
-            {
-                foreach (var btn in buttons)
-                {
-                    if (btn != null && btn.isActiveAndEnabled)
-                    {
-                        btn.Interactable = isInteractable;
-                    }
-                }
-            }
         }
 
         public void AddDropdown(ItemDropdown dropdown, SettingsBase.ComponentType type)

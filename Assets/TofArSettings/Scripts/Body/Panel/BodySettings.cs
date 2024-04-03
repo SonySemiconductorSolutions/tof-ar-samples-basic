@@ -16,9 +16,10 @@ namespace TofArSettings.Body
         BodyManagerController managerController;
         SV2Controller sv2Controller;
 
-        UI.ItemDropdown itemMode, itemRuntimeModeSV2, itemRecogModeSV2, itemNoiseReduction, itemHumanTrackingMode;
+        UI.ItemDropdown itemMode, itemRuntimeModeSV2, itemRecogModeSV2, itemNoiseReduction;
         UI.ItemSlider itemSV2Thread;
         UI.ItemToggle itemStartStream;
+        
 
         protected override void Start()
         {
@@ -36,7 +37,7 @@ namespace TofArSettings.Body
             controllers.Add(sv2Controller);
             managerController = FindObjectOfType<BodyManagerController>();
             controllers.Add(managerController);
-
+            
             base.Start();
 
             settings.OnChangeStart += OnChangePanel;
@@ -48,7 +49,7 @@ namespace TofArSettings.Body
         void MakeUIDetectorType()
         {
             itemMode = settings.AddItem("Detector Type", runtimeController.DetectorTypeNames,
-                runtimeController.DetectorTypeIndex, ChangeMode, 0, 0, 200);
+                runtimeController.DetectorTypeIndex, ChangeMode);
 
             runtimeController.OnChangeDetectorType += (index) =>
             {
@@ -71,19 +72,16 @@ namespace TofArSettings.Body
         /// </summary>
         void MakeUIRuntime()
         {
-            settings.AddItem("SV2", FontStyle.Bold);
-            itemRuntimeModeSV2 = settings.AddItem(" Runtime", sv2Controller.RuntimeModeNames,
-                sv2Controller.RuntimeModeIndex, ChangeRuntimeModeSV2, 0, 0, 300, lineAlpha);
-            itemRecogModeSV2 = settings.AddItem(" RecogMode", sv2Controller.RecogModeNames,
-                sv2Controller.RecogModeIndex, ChangeRecogModeSV2, 0, 0, 280, lineAlpha);
-            itemSV2Thread = settings.AddItem(" Threads",
+            itemRuntimeModeSV2 = settings.AddItem("SV2 Runtime", sv2Controller.RuntimeModeNames,
+                sv2Controller.RuntimeModeIndex, ChangeRuntimeModeSV2);
+            itemRecogModeSV2 = settings.AddItem("SV2 RecogMode", sv2Controller.RecogModeNames,
+                sv2Controller.RecogModeIndex, ChangeRecogModeSV2);
+            itemSV2Thread = settings.AddItem("SV2 Threads",
                 SV2Controller.ThreadMin, SV2Controller.ThreadMax,
                 SV2Controller.ThreadStep, sv2Controller.ModeThreads,
-                ChangeSV2Threads, 0, 0, lineAlpha);
-            itemNoiseReduction = settings.AddItem("Noise Reduction Level", sv2Controller.NoiseReductionLevelNames,
-                sv2Controller.NoiseReductionIndex, ChangeNoiseReductionSV2, -4, 0, 260, lineAlpha);
-            itemHumanTrackingMode = settings.AddItem("Human Tracking Mode", sv2Controller.HumanTrackingModeNames,
-                sv2Controller.HumanTrackingModeIndex, ChangeHumanTrackingModeSV2, -4, 0, 260, lineAlpha);
+                ChangeSV2Threads);
+            itemNoiseReduction = settings.AddItem("SV2 Noise Reduction Level", sv2Controller.NoiseReductionLevelNames,
+                sv2Controller.NoiseReductionIndex, ChangeNoiseReductionSV2);
 
             sv2Controller.OnChangeRuntimeMode += (index) =>
             {
@@ -97,7 +95,7 @@ namespace TofArSettings.Body
                 itemRuntimeModeSV2.Index = runtimeModeIndex;
             };
 
-            sv2Controller.OnChangeRecogMode += (index, conf) =>
+            sv2Controller.OnChangeRecogMode += (index,conf) =>
             {
                 itemRecogModeSV2.Index = index;
             };
@@ -117,12 +115,6 @@ namespace TofArSettings.Body
             {
                 itemNoiseReduction.Options = list;
                 itemNoiseReduction.Index = index;
-            };
-
-            sv2Controller.OnUpdateHumanTrackingModeList += (list, index) =>
-            {
-                itemHumanTrackingMode.Options = list;
-                itemHumanTrackingMode.Index = index;
             };
 
             sv2Controller.OnChangeModeThreads += (val) =>
@@ -170,15 +162,6 @@ namespace TofArSettings.Body
         void ChangeNoiseReductionSV2(int index)
         {
             sv2Controller.NoiseReductionIndex = index;
-        }
-
-        /// <summary>
-        /// Change HumanTrackingMode
-        /// </summary>
-        /// <param name="index">RuntimeMode index</param>
-        void ChangeHumanTrackingModeSV2(int index)
-        {
-            sv2Controller.HumanTrackingModeIndex = index;
         }
 
         /// <summary>

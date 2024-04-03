@@ -1,0 +1,21 @@
+{
+    "name": "UniVRM.Editor.Tests",
+    "references": [
+        "VRM",
+        "UniJSON",
+        "UniVRM.Editor",
+        "MeshUtility"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

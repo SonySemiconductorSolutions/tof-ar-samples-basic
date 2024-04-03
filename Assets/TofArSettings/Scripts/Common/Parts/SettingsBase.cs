@@ -38,7 +38,7 @@ namespace TofArSettings.UI
         /// Button to open/close
         /// </summary>
         [SerializeField]
-        protected ToolButton toolBtn = null;
+        ToolButton toolBtn = null;
 
         /// <summary>
         /// Use top right back button or not
@@ -66,8 +66,7 @@ namespace TofArSettings.UI
             Mesh,
             FingerTouch,
             Slam,
-            Face,
-            Plane
+            Face
         }
 
         /// <summary>
@@ -82,11 +81,6 @@ namespace TofArSettings.UI
         /// Execution order of UI creation function
         /// </summary>
         protected UnityAction[] uiOrder;
-
-        /// <summary>
-        /// Alpha value when making the line color translucent
-        /// </summary>
-        protected const byte lineAlpha = 80;
 
         SettingsPrefabManager prefabMgr;
 
@@ -172,7 +166,7 @@ namespace TofArSettings.UI
                 }
             }
 
-            settings.AdjustUISize();
+            settings.AdjustUIHeight();
         }
 
         /// <summary>

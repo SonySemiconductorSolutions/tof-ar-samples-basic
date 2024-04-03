@@ -82,13 +82,5 @@ Assets/Resources/BuildDateTime.txt*
 Assets/TofAr
 Assets/TofAr.meta
 
-Assets/TestTools
-Assets/TestTools.meta
-
 *BurstDebugInformation_DoNotShip
 *BackUpThisFolder_ButDontShipItWithYourGame
-StreamingAssets
-Stdout.log
-StdoutEditor.log
-tofar_log_settings
-Assets/StreamingAssets.meta

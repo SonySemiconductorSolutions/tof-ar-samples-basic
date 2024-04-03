@@ -14,9 +14,9 @@
 ToF AR で没入感のあるARを体験しましょう。  
 以下のストアでアプリを見つけることができます。
 
-[<img alt="App Store からダウンロード" src="./Docs/images/App_Store_Badge_JP_100317.svg" height="60">](https://apps.apple.com/jp/developer/id1601362415)
+[<img alt="App Store からダウンロード" src="/Docs/images/App_Store_Badge_JP_100317.svg" height="60">](https://apps.apple.com/jp/developer/id1601362415)
 &nbsp;&nbsp;&nbsp;&nbsp;
-[<img alt="Google Play で手に入れよう" src="./Docs/images/google-play-badge_jp.png" height="68">](https://play.google.com/store/apps/developer?id=Sony+Semiconductor+Solutions+Corporation)
+[<img alt="Google Play で手に入れよう" src="/Docs/images/google-play-badge_jp.png" height="68">](https://play.google.com/store/apps/developer?id=Sony+Semiconductor+Solutions+Corporation)
 
 
 <a name="about"></a>
@@ -30,13 +30,13 @@ Structured light 方式など、ToF 以外のDepthセンサでもToF ARは動作
 
 ToF AR のパッケージや開発ドキュメント、ToF ARを使ったアプリケーションソフト、対応スマートフォンのリストにつきましては、
 
-[ToF AR サイト](https://tof-ar.com/)をご覧ください。
+Developer World の[ToF AR サイト](https://developer.sony.com/ja/develop/tof-ar)をご覧ください。
 
 
 <a name="overview"></a>
 # ToF AR Samples Basicの概要
 
-**ToF AR Samples Basic** は ToF AR の機能を使った簡単なサンプルアプリケーションで、下記シーンを提供しています。
+**ToF AR Samples Basic** は ToF AR の機能を使った簡単なサンプルアプリケーションで、下記の17シーンを提供しています。
 
 
 ## サンプルシーン一覧
@@ -55,10 +55,10 @@ ToF AR のパッケージや開発ドキュメント、ToF ARを使ったアプ�
     <td>DepthイメージとConfidenceイメージを画面2分割で表示</td>
 </tr>
 <tr align="center">
-    <td><img src="./Docs/images/01_Color.jpg"           alt="image of Color scene"           width="150"></td>
-    <td><img src="./Docs/images/02_ColorDepth.jpg"      alt="image of ColorDepth scene"      width="150"></td>
-    <td><img src="./Docs/images/03_BasicStream.jpg"     alt="image of BasicStream scene"     width="150"></td>
-    <td><img src="./Docs/images/04_DepthConfidence.jpg" alt="image of DepthConfidence scene" width="150"></td>
+    <td><img src="/Docs/images/01_Color.jpg"           alt="image of Color scene"           width="150"></td>
+    <td><img src="/Docs/images/02_ColorDepth.jpg"      alt="image of ColorDepth scene"      width="150"></td>
+    <td><img src="/Docs/images/03_BasicStream.jpg"     alt="image of BasicStream scene"     width="150"></td>
+    <td><img src="/Docs/images/04_DepthConfidence.jpg" alt="image of DepthConfidence scene" width="150"></td>
 </tr>
 </table>
 
@@ -76,10 +76,10 @@ ToF AR のパッケージや開発ドキュメント、ToF ARを使ったアプ�
     <td>人物、空のセグメンテーション結果をマスクとして表示</td>
 </tr>
 <tr align="center">
-    <td><img src="./Docs/images/05_PointCloud.jpg"        alt="image of PointCloud scene"        width="150"></td>
-    <td><img src="./Docs/images/06_ColoredPointCloud.jpg" alt="image of ColoredPointCloud scene" width="150"></td>
-    <td><img src="./Docs/images/07_HumanPointCloud.jpg"   alt="image of HumanPointCloud scene"   width="150"></td>
-    <td><img src="./Docs/images/08_Segmentation.jpg"      alt="image of Segmentation scene"      width="150"></td>
+    <td><img src="/Docs/images/05_PointCloud.jpg"        alt="image of PointCloud scene"        width="150"></td>
+    <td><img src="/Docs/images/06_ColoredPointCloud.jpg" alt="image of ColoredPointCloud scene" width="150"></td>
+    <td><img src="/Docs/images/07_HumanPointCloud.jpg"   alt="image of HumanPointCloud scene"   width="150"></td>
+    <td><img src="/Docs/images/08_Segmentation.jpg"      alt="image of Segmentation scene"      width="150"></td>
 </tr>
 </table>
 
@@ -97,10 +97,10 @@ ToF AR のパッケージや開発ドキュメント、ToF ARを使ったアプ�
     <td>人体のボーンモデルを、Depthイメージの上に表示</td>
 </tr>
 <tr align="center">
-    <td><img src="./Docs/images/09_Hand.jpg"               alt="image of Hand scene"               width="150"></td>
-    <td><img src="./Docs/images/10_LiveMeshOcclusion.jpg"  alt="image of LiveMeshOcclusion scene"  width="150"></td>
-    <td><img src="./Docs/images/11_ColorHandOcclusion.jpg" alt="image of ColorHandOcclusion scene" width="150"></td>
-    <td><img src="./Docs/images/12_Body.jpg"               alt="image of Body scene"               width="150"></td>
+    <td><img src="/Docs/images/09_Hand.jpg"               alt="image of Hand scene"               width="150"></td>
+    <td><img src="/Docs/images/10_LiveMeshOcclusion.jpg"  alt="image of LiveMeshOcclusion scene"  width="150"></td>
+    <td><img src="/Docs/images/11_ColorHandOcclusion.jpg" alt="image of ColorHandOcclusion scene" width="150"></td>
+    <td><img src="/Docs/images/12_Body.jpg"               alt="image of Body scene"               width="150"></td>
 
 </tr>
 </table>
@@ -119,28 +119,22 @@ ToF AR のパッケージや開発ドキュメント、ToF ARを使ったアプ�
     <td>SLAMに対応したカメラ座標表示</td>
 </tr>
 <tr align="center">
-    <td><img src="./Docs/images/13_ColorBody.jpg"     alt="image of ColorBody scene"     width="150"></td>
-    <td><img src="./Docs/images/14_HandMark.jpg"      alt="image of HandMark scene"      width="150"></td>
-    <td><img src="./Docs/images/15_ColorHandMark.jpg" alt="image of ColorHandMark scene" width="150"></td>
-    <td><img src="./Docs/images/16_SLAM.jpg"          alt="image of SLAM scene"          width="150"></td>
+    <td><img src="/Docs/images/13_ColorBody.jpg"     alt="image of ColorBody scene"     width="150"></td>
+    <td><img src="/Docs/images/14_HandMark.jpg"      alt="image of HandMark scene"      width="150"></td>
+    <td><img src="/Docs/images/15_ColorHandMark.jpg" alt="image of ColorHandMark scene" width="150"></td>
+    <td><img src="/Docs/images/16_SLAM.jpg"          alt="image of SLAM scene"          width="150"></td>
 </tr>
 </table>
 
 <table>
 <tr align="center">
     <th width="250">Face</th>
-    <th width="250">Plane</th>
-    <th width="250">Recorder</th>
 </tr>
 <tr align="center">
     <td>顔認識に基づき顔の上に白色マスクを表示。あわせて口の形からあいうえお認識結果を表示</td>
-    <td>認識した平面と垂直方向を表示</td>
-    <td>選択したコンポーネントの出力データを画像、CSVファイルに保存</td>
 </tr>
 <tr align="center">
-    <td><img src="./Docs/images/17_Face.jpg" alt="image of Face scene" width="150"></td>
-    <td><img src="./Docs/images/18_Plane.jpg" alt="image of Plane scene" width="150"></td>
-    <td><img src="./Docs/images/19_Recorder.jpg" alt="image of Recorder scene" width="150"></td>
+    <td><img src="/Docs/images/17_Face.jpg" alt="image of Face scene" width="150"></td>
 </tr>
 </table>
 
@@ -150,7 +144,7 @@ ToF AR のパッケージや開発ドキュメント、ToF ARを使ったアプ�
 
 1. アプリケーションを起動し、トップ画面のシーン一覧からシーンを選んでタップします。 
 
-    <img src="./Docs/images/topmenu.jpg" alt="image of Top screen" width="150">
+    <img src="/Docs/images/topmenu.jpg" alt="image of Top screen" width="150">
 
 1. 画面左下のカメラアイコンをタップすると、選択したシーンで有効なカメラのリストが表示されます。カメラを選択すると、シーンの動作を開始します。　 
 
@@ -160,7 +154,7 @@ ToF AR のパッケージや開発ドキュメント、ToF ARを使ったアプ�
 <a name="component"></a>
 # コンポーネント
 
-サンプルアプリケーションのシーンと、各シーンが利用するToF AR コンポーネントの関係を示すテーブルです。縦にシーン名、横にコンポーネント名を並べています。チェックマークは、コンポーネント利用を示します。
+サンプルアプリケーションの17シーンと、各シーンが利用するToF AR コンポーネントの関係を示すテーブルです。縦にシーン名、横にコンポーネント名を並べています。チェックマークは、コンポーネント利用を示します。
 
 ||ToF|Color|Mesh|Coordinate|Hand|MarkRecog|Body|Segmentation|Slam|Face|Plane|Modeling|
 |:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
@@ -181,15 +175,15 @@ ToF AR のパッケージや開発ドキュメント、ToF ARを使ったアプ�
 |ColorHandMark     |✓|✓|  |  |✓|✓|  |  |  |  |  |  |
 |SLAM              |✓|✓|  |  |  |  |  |  |✓|  |  |  |
 |Face              |✓|✓|  |✓|✓|  |  |  |  |✓|  |  |
-|Plane             |✓|  |  |  |  |  |  |  |  |  |✓|  |
-|Recorder          |✓|✓|  |  |✓|  |✓|  |✓|✓|  |  |
+
+
 <a name="assets"></a>
 # アセット
 
 **ToF AR Samples Basic**は、以下のアセットを提供します。アセットには、URP（Universal Render Pipeline）と、3DキャラクターやアバターのためのVRMも含まれます。
 
 ### TofArSamplesBasic
-各サンプルシーンのスクリプトやリソースが、コンポーネントごとに格納されています。
+17のサンプルシーンのスクリプトやリソースが、コンポーネントごとに格納されています。
 
 ### TofArSettings
 各コンポーネントが使用する設定変更UIとして、プレハブやスクリプトが格納されています。
@@ -210,31 +204,31 @@ ToF AR のパッケージや開発ドキュメント、ToF ARを使ったアプ�
 ### VRM
 人型のキャラクター・アバターを取り扱う、プラットフォーム非依存の3Dアバターファイルフォーマットです。アセットに含まれています。
 
-詳細は[VRM ドキュメント](https://vrm.dev/en/vrm/vrm_about/)を参照して下さい。
+詳細は[VRM ドキュメント](https://vrm.dev/en/vrm/index)を参照して下さい。
 
 <a name="environment"></a>
 # 開発環境
 
 ## ビルド用ライブラリ
 ビルドには、ToF AR が必要です。
-[ToF AR サイト](https://tof-ar.com/)からダウンロードし、インポートして使用して下さい。  
+Developer Worldの[ToF AR サイト](https://developer.sony.com/ja/develop/tof-ar)からダウンロードし、インポートして使用して下さい。  
 インポート前にプロジェクトを開くと、設定によってはセーフモードへの移行確認メッセージが表示されます。  
 セーフモードに移行した場合、セーフモードメニューなどからセーフモードを終了してインポートを行って下さい。
 
 ## ドキュメント
 
-ToF ARの開発ドキュメントも、ToF AR サイトで公開しています。
-* 概要や使い方についてのマニュアルは[ToF AR user manual](https://tof-ar.com/files/2/tofar/manual_reference/ToF_AR_User_Manual_ja.html)
-* 各コンポーネントの詳細記事は[ToF AR reference articles](https://tof-ar.com/files/2/tofar/manual_reference/ToF_AR_Reference_Articles_ja.html)
-* APIリファレンスは[ToF AR API references](https://tof-ar.com/files/2/tofar/manual_reference/reference_ja/reference/api/TofAr.V0.html)
+ToF ARの開発ドキュメントも、Developer Worldで公開しています。
+* 概要や使い方についてのマニュアルは[ToF AR user manual](https://developer.sony.com/develop/tof-ar/development-guides/docs/ToF_AR_User_Manual_ja.html)
+* 各コンポーネントの詳細記事は[ToF AR reference articles](https://developer.sony.com/develop/tof-ar/development-guides/docs/ToF_AR_Reference_Articles_ja.html)
+* APIリファレンスは[ToF AR API references](https://developer.sony.com/develop/tof-ar/development-guides/reference-api-ja/reference/api/TofAr.V0.html)
 
 
 ## 動作検証環境
 
 動作検証は、下記の環境で行っています。
 
-* Unity Version  : 2021.3.31f1
-* ToF AR Version : 1.4.0
+* Unity Version  : 2021.3.18f1
+* ToF AR Version : 1.3.0
 
 
 <a name="notes"></a>

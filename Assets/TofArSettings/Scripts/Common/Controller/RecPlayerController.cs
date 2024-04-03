@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -139,26 +139,9 @@ namespace TofArSettings
             string dirPath = Path.Combine(Application.persistentDataPath, recCtrl?.DirPath ?? "data");
 
             var fnames = new List<string>();
-
-            if (FileNames != null && FileNames.Length > 0)
-            {
-                fnames.AddRange(FileNames);
-            }
-            else
-            {
-                //zero entry at the top
-                fnames.Add("-");
-            }
-
-            var fileNames = GetFileNames(dirPath);
-            foreach (string fileName in fileNames)
-            {
-                if (!string.IsNullOrEmpty(fileName))
-                {
-                    fnames.Add(fileName);
-                }
-            }
-
+            //zero entry at the top
+            fnames.Add("-");
+            fnames.AddRange(GetFileNames(dirPath));
             FileNames = fnames.ToArray();
 
             if (recCtrl != null)
@@ -327,8 +310,7 @@ namespace TofArSettings
                     .Where(x => x.Contains(streamKey)).OrderBy(x => x);
 
                 return directoryListProp.ToArray();
-            }
-            else
+            } else
             {
                 var directoryListProp = TofArManager.Instance.GetProperty<DirectoryListProperty>();
 

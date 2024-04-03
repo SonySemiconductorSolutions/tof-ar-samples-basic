@@ -1,14 +1,15 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022 Sony Semiconductor Solutions Corporation.
  *
  */
 
-using System.IO;
+using System.Linq;
 using TofAr.V0;
 using TofAr.V0.Face;
 using TofArSettings.UI;
+using UnityEngine;
 
 namespace TofArSettings.Face
 {
@@ -25,54 +26,36 @@ namespace TofArSettings.Face
 
         protected override void PlayPrep_internal()
         {
-            TofArFaceManager.Instance?.PauseStream();
+            TofArFaceManager.Instance.PauseStream();
         }
 
         protected override bool Play_internal(string fileName)
         {
-            var directoryListProp = TofArManager.Instance?.GetProperty<DirectoryListProperty>();
-            if (directoryListProp == null)
-            {
-                return false;
-            }
 
+            var directoryListProp = TofArManager.Instance.GetProperty<DirectoryListProperty>();
             string fileRoot = directoryListProp.path;
-            if (fileRoot.Length <= 0)
+
+            if (fileRoot == null)
             {
                 return false;
             }
+            var file = $"{fileRoot}/{fileName}";
 
-            var faceMgr = TofArFaceManager.Instance;
-            if (!faceMgr)
-            {
-                return false;
-            }
-
-            var file = $"{fileRoot}{Path.AltDirectorySeparatorChar}{fileName}";
-            faceMgr.PauseStream();
-            faceMgr.StartPlayback(file);
-
+            TofArFaceManager.Instance.PauseStream();
+            TofArFaceManager.Instance.StartPlayback(file);
             return true;
         }
 
         protected override void Pause_internal()
         {
-            TofArFaceManager.Instance?.PauseStream();
+            Debug.Log("Face Pause");
+            TofArFaceManager.Instance.PauseStream();
         }
 
         protected override void UnPause_internal()
         {
-            TofArFaceManager.Instance?.UnpauseStream();
-        }
-
-        protected override void Stop_internal()
-        {
-            TofArFaceManager.Instance?.StopPlayback();
-        }
-
-        protected override void StopCleanup_internal()
-        {
-            TofArFaceManager.Instance?.UnpauseStream();
+            TofArFaceManager.Instance.UnpauseStream();
+            Debug.Log("Face UnPause");
         }
 
         protected override void OnEndRecord(bool result, string filePath)
@@ -85,6 +68,16 @@ namespace TofArSettings.Face
             var options = GetFileNames(dirPath, TofArFaceManager.StreamKey);
 
             return options;
+        }
+
+        protected override void Stop_internal()
+        {
+            TofArFaceManager.Instance.StopPlayback();
+        }
+
+        protected override void StopCleanup_internal()
+        {
+            TofArFaceManager.Instance.UnpauseStream();
         }
     }
 }

@@ -14,28 +14,16 @@ namespace TofArSettings.Body
 {
     public class BodyManagerController : ControllerBase
     {
-
+        
         /// <summary>
         /// Start stream
         /// </summary>
         public void StartStream()
         {
-            var badyMgr = TofArBodyManager.Instance;
-            if (badyMgr && !TofArBodyManager.Instance.IsStreamActive && !TofArBodyManager.Instance.IsPlaying)
+            if (!TofArBodyManager.Instance.IsStreamActive)
             {
-                var tofMgr = TofArTofManager.Instance;
-                if (tofMgr && TofArTofManager.Instance.IsPlaying)
-                {
-                    if (TofArBodyManager.Instance.Stream != null)
-                    {
-                        TofArBodyManager.Instance.StartPlayback();
-                    }
-                }
-                else
-                {
-                    TofArBodyManager.Instance.StartStream();
-                }
-                OnStreamStartStatusChanged?.Invoke(true);
+                TofArBodyManager.Instance.StartStream();
+                OnStreamStartStatusChanged(true);
             }
         }
 
@@ -44,18 +32,10 @@ namespace TofArSettings.Body
         /// </summary>
         public void StopStream()
         {
-            var badyMgr = TofArBodyManager.Instance;
-            if (badyMgr && TofArBodyManager.Instance.IsStreamActive)
+            if (TofArBodyManager.Instance.IsStreamActive)
             {
-                if (TofArBodyManager.Instance.IsPlaying)
-                {
-                    TofArBodyManager.Instance.StopPlayback();
-                }
-                else
-                {
-                    TofArBodyManager.Instance.StopStream();
-                }
-                OnStreamStartStatusChanged?.Invoke(false);
+                TofArBodyManager.Instance.StopStream();
+                OnStreamStartStatusChanged(false);
             }
         }
 
