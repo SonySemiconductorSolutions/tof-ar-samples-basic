@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
+  m_IndirectSpecularColor: {r: 0.3708625, g: 0.37838694, b: 0.35726872, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -423,7 +423,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1333313213}
   m_HandleRect: {fileID: 1333313212}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2944,6 +2944,12 @@ MonoBehaviour:
     RequireTof: 1
   - SceneName: Face
     DisplayName: Face
+    RequireTof: 1
+  - SceneName: Plane
+    DisplayName: Plane
+    RequireTof: 1
+  - SceneName: Recorder
+    DisplayName: Recorder
     RequireTof: 1
 --- !u!114 &1715089973
 MonoBehaviour:

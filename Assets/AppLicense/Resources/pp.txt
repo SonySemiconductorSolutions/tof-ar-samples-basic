@@ -1,0 +1,30 @@
+Privacy policy for "ToF AR Samples Basic" application
+This Privacy Policy applies to “ToF AR Samples Basic” application (the “Application”).
+
+In this Privacy Policy, we use “SONY,” "we” to refer to Sony Semiconductor Solutions Corporation.
+
+1- WHAT INFORMATION DO WE OBTAIN?
+Depending on your use of our Application, some of your data may be collected using the ARKit’s TrueDepth function of your device and processed (used and saved) by the Application. The data which Application may process are:
+
+Face recognition data
+Hand recognition data
+Body recognition data
+The purpose of processing the above-mentioned data is to recognize your face, hand and/or body using the depth data collected by the said TrueDepth function and reflect such recognized data to output of the Application, such as movement of the avatar or laying over certain visual effect on your images. The Application itself will not disclose or share the recognized data or your personal information.
+
+All the said data processing is performed locally on the device on which you installed the Application. In other words, we do not collect, upload, save, access to, disclose or transfer any of your personal information due to your use the Application. We also do not collect, upload save, access to, disclose or transfer any of your personal information due to your installation or deletion of the Application from such device.
+
+Nevertheless, by contacting us on the email address presented in the Section 3 of this Privacy Policy or on the application store on which the Application is made available, we are collecting information about you (your “Inquiry Data”). Depending on the applicable law in your jurisdiction, some of your Inquiry Data may be considered as personal information, such as:
+
+Your email address, and
+Any other information you choose to provide us in the email you write us.
+2- CHANGES
+SONY may revise this Privacy Policy at any time by posting the new Privacy Policy here. SONY will also notify you of any material changes to this Privacy Policy by prominently posting notice of the amendment on the Application. You are advised to consult the posted Privacy Policy regularly for any changes.
+
+3- CONTACT INFORMATION
+SONY, a Japanese company, is the Controller for the Inquiry Data. SONY's address is 4-14-1 Asahi-cho, Atsugi-shi, Kanagawa, 243-0014 Japan.
+
+If you have any questions or concerns about this Privacy Policy, or if you wish to make requests, please contact us at sss-support-tofar@sony.com.
+
+To know more about our use of your Inquiry Data we will be processing due to your contact via the above written email address, please refer to SONY’s privacy policy accessible at the following URL: https://www.sony-semicon.com/en/privacy/.
+
+Last Updated and Effective: September 15, 2022

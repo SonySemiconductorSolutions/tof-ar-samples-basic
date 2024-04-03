@@ -1,56 +1,41 @@
-# UniGLTF
+# UniGLTF-2.0
 
-[glTF](https://github.com/KhronosGroup/glTF) 2.0 importer and exporter for Unity 5.6 or later
+* Unity-Supports 2019.4 and later
+* You can import and export glTF-2.0 in Unity's editor and runtime.
+* implement `KHR_materials_unlit`
+* implement `KHR_texture_transform` (partial)
 
-Improved material importer(UniGLTF-1.21) ! 
+# Material
 
-Below is imported from [DamagedHelmet](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/DamagedHelmet). Using unity standard shader.
+## PBR
 
-![standard shader](doc/pbr_to_standard.png)
+* Convert as much as possible between glTF pbr and Unity Standard Shader.
+* Converts metal roughness and occlusion RGBA channel incompatibility.
 
+## Unlit
 
-![duck](doc/duck.png)
-![animation](doc/animation.gif)
+* import: UniGLTF's own `UniGLTF/UniUnlit` shader.
+* export: You can export `UniGLTF/UniUnlit` and Unity unilt materials.
+
+* Only `UniGLTF/UniUnlit` supports vertex colors.
+
+## URP
+
+* import only. experimental
 
 # License
 
 * [MIT license](LICENSE)
 
-# See also
-
-* https://github.com/ousttrue/UniGLTF/wiki
-
-# Sample Models
-
-* https://github.com/KhronosGroup/glTF-Sample-Models
-
-## Huge model required Unity2017.3 or later
-
-* [Mesh.IndexFormat(from 2017.3)](https://docs.unity3d.com/ScriptReference/Mesh-indexFormat.html) is required
-
-example. SciFiHelmet(70074vertices)
-
-![SciFiHelmet](doc/SciFiHelmet.png)
-
 # Download
 
-* https://github.com/ousttrue/UniGLTF/releases
+* https://github.com/vrm-c/UniVRM/releases
 
-# Usage
+# Screenshots
 
-## Import as prefab
+You can import almost all of [gltf_sample_models](https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0)
 
-* drop gltf folder or glb file into Assets folder
-
-![duck_prefab](doc/duck_prefab.png)
-
-or
-
-* editor mode
-* menu [UniGLTF] - [Import] 
-* open gltf file(gltf, glb, zip) from out of Asset Folder
-
-## API
-
-* https://github.com/ousttrue/UniGLTF/wiki/Rutime-API
-
+![standard shader](doc/pbr_to_standard.png)
+![duck](doc/duck.png)
+![animation](doc/animation.gif)
+![SciFiHelmet](doc/SciFiHelmet.png)

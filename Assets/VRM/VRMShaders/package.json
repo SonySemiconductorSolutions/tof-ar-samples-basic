@@ -1,14 +1,17 @@
 {
   "name": "com.vrmc.vrmshaders",
-  "version": "0.60.0",
+  "version": "0.110.0",
   "displayName": "VRM Shaders",
   "description": "VRM Shaders",
-  "unity": "2018.4",
+  "unity": "2019.4",
   "keywords": [
     "vrm",
     "shader"
   ],
   "author": {
     "name": "VRM Consortium"
+  },
+  "dependencies": {
+    "com.unity.modules.imageconversion": "1.0.0"
   }
 }
