@@ -28,7 +28,7 @@ namespace TofArSettings.UI
 
         public bool IsNotifyImmediately = false;
 
-        float val;
+        float val = float.MaxValue;
         public float Value
         {
             get { return val; }
@@ -132,6 +132,7 @@ namespace TofArSettings.UI
         Adjuster adjuster;
 
         bool operating = false;
+        float sliderWidth;
 
         protected override void Awake()
         {
@@ -166,6 +167,18 @@ namespace TofArSettings.UI
             {
                 Value = val;
             };
+        }
+
+        /// <summary>
+        /// Adjust UI width with scroll bar
+        /// </summary>
+        /// <param name="scrollBarSpace">scroll bar width + spacing</param>
+        public override void AdjustUIWidth(float scrollBarSpace)
+        {
+            base.AdjustUIWidth(scrollBarSpace);
+
+            float w = sliderWidth - scrollBarSpace;
+            sliderRt.sizeDelta = new Vector2(w, sliderRt.sizeDelta.y);
         }
 
         /// <summary>
@@ -209,10 +222,9 @@ namespace TofArSettings.UI
 
             SetRangeText();
 
-            adjuster.DefaultValue = adjuster.ConvertToPlain(Value);
-
             // Adjust size of Slider to fit the size of ItemInput
-            sliderRt.sizeDelta = new Vector2(sliderRt.sizeDelta.x - WidthDiff, sliderRt.sizeDelta.y);
+            sliderWidth = sliderRt.sizeDelta.x - WidthDiff;
+            sliderRt.sizeDelta = new Vector2(sliderWidth, sliderRt.sizeDelta.y);
         }
 
         /// <summary>
