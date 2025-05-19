@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -25,6 +25,7 @@ Shader "TofAr/Tof/ConfidenceViewShader_URP"
             #pragma fragment frag
             
             #include "UnityCG.cginc"
+			#include_with_pragmas "Assets/TofAr/TofAr/V0/Shaders/TofArCommon.hlsl"
 
             struct appdata
             {
@@ -41,6 +42,7 @@ Shader "TofAr/Tof/ConfidenceViewShader_URP"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float _Strength;
+            int _isLinearColorSpace;
             
             v2f vert (appdata v)
             {
@@ -60,6 +62,9 @@ Shader "TofAr/Tof/ConfidenceViewShader_URP"
 
                 float grey = u16 / 7.0f * _Strength;
                 col = fixed4(grey, grey, grey, 1);
+
+                col = toGamma(col, _isLinearColorSpace);
+
                 return col;
             }
             ENDCG

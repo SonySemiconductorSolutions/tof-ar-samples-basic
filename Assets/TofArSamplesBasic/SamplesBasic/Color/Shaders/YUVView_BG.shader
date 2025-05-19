@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -9,8 +9,8 @@ Shader "TofAr/Color/YUVShader_BG"
 {
 	Properties
 	{
-		_YTex ("Y Texture", 2D) = "Black" {}
-		_UVTex ("UV Texture", 2D) = "Black" {}
+		_YTex ("Y Texture", 2D) = "black" {}
+		_UVTex ("UV Texture", 2D) = "black" {}
 		//_paddingCutOff ("Texture padding cutoff", float) = 0.0
 	}
 	SubShader
@@ -26,8 +26,9 @@ Shader "TofAr/Color/YUVShader_BG"
 			#pragma fragment frag
 			// make fog work
 			#pragma multi_compile_fog
-			
+	
 			#include "UnityCG.cginc"
+			#include_with_pragmas "Assets/TofAr/TofAr/V0/Shaders/TofArCommon.hlsl"
 
 			struct appdata
 			{
@@ -46,6 +47,8 @@ Shader "TofAr/Color/YUVShader_BG"
 			float4 _YTex_ST;
 			sampler2D _UVTex;
 			float _YUVShader_paddingCutOff;
+			int _isLinearColorSpace;
+			const float _linearLow = (6 / 255.0);
 			
 			v2f vert (appdata v)
 			{
@@ -67,17 +70,20 @@ Shader "TofAr/Color/YUVShader_BG"
 					1.164f, -0.813f, -0.391f,
 					1.164f,  0.0f,    2.018f);
 
-				fixed4 Y = tex2D(_YTex, i.uv);
-				fixed4 UV = tex2D(_UVTex, i.uv);
+				float4 Y = tex2D(_YTex, i.uv);
+				float4 UV = tex2D(_UVTex, i.uv);
 				float y = Y.a - (16.0f / 255.0f);
 				clamp(y, 0.0, 1.0);
 				float v = UV.r * (15.0f * 16.0f / 255.0f) + UV.g * (16.0f / 255.0f);
 				float u = UV.b * (15.0f * 16.0f / 255.0f) + UV.a * (16.0f / 255.0f);
 
 				float3 rgb = mul(yuv2rgb, float3(y, u - 0.5f, v - 0.5f));
-				fixed4 col = fixed4(rgb.r, rgb.g, rgb.b, 1.0f);
+				float4 col = float4(rgb.r, rgb.g, rgb.b, 1.0f);
 
 				UNITY_APPLY_FOG(i.fogCoord, col);
+				
+				col = toGamma(col, _isLinearColorSpace);
+	
 				return col;
 			}
 			ENDCG

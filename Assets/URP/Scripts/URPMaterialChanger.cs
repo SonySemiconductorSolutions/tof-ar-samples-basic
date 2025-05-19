@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -63,16 +63,19 @@ namespace TofArCustom
                 throw new ArgumentNullException("material");
             }
 
-            bool alphaClip = material.GetFloat("_AlphaClip") == 1;
-            if (alphaClip)
+            if (material.HasProperty("_AlphaClip"))
             {
-                material.EnableKeyword("_ALPHATEST_ON");
+                bool alphaClip = material.GetFloat("_AlphaClip") == 1;
+                if (alphaClip)
+                {
+                    material.EnableKeyword("_ALPHATEST_ON");
+                }
+                else
+                {
+                    material.DisableKeyword("_ALPHATEST_ON");
+                }
             }
-            else
-            {
-                material.DisableKeyword("_ALPHATEST_ON");
-            }
-
+            
             var surfaceType = (SurfaceType)material.GetFloat("_Surface");
             if (surfaceType == SurfaceType.Opaque)
             {

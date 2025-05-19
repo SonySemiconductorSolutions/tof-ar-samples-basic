@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -45,7 +45,7 @@ Shader "TofAr/ColoredPointCloudMesh_RGB"
         sampler2D _MainTex;
         float4 _MainTex_ST;
         float _PointSize;
-        
+        int _isLinearColorSpace;
 
         v2f vert(appdata v)
         {

@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -12,8 +12,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Android;
 using TofArSettings;
 using UnityEditor;
 
@@ -28,8 +30,20 @@ namespace TofArSamples.Recorder
         [SerializeField]
         private string folderName = "TofArData";
         private string savePath;
+        private string lastSavePath;
         public int timer = 0;
         public RecordMode recordMode = RecordMode.Multiple;
+
+        public SaveType SaveType
+        {
+            get => saveType;
+            set
+            {
+                saveType = value;
+            }
+        }   
+        [SerializeField]
+        private SaveType saveType = SaveType.Component;
 
         [Header("Save Data")]
         public bool Hand = true;
@@ -156,10 +170,8 @@ namespace TofArSamples.Recorder
         private DeleteConfirmation dialogPanel;
         private SynchronizationContext context;
 
-        override protected void Start()
+        private void Awake() 
         {
-            context = SynchronizationContext.Current;
-
             recorders = GetComponentsInChildren<Recorder>().ToList();
             foreach (var recorder in recorders)
             {
@@ -168,6 +180,29 @@ namespace TofArSamples.Recorder
                     ((BinaryRecorder)recorder).onDataStored += onDataStored;
                 }
             }
+
+            if (PlayerPrefs.GetString(saveTimeKey).Length != 0)
+            {
+                timer = PlayerPrefs.GetInt(timerKey);
+                recordMode = (RecordMode)PlayerPrefs.GetInt(recordModeKey);
+                SaveType = (SaveType)PlayerPrefs.GetInt(saveTypeKey);
+
+                Depth = PlayerPrefs.GetInt(depthKey) == 1;
+                Color = PlayerPrefs.GetInt(colorKey) == 1;
+                Hand = PlayerPrefs.GetInt(handKey) == 1;
+                Body = PlayerPrefs.GetInt(bodyKey) == 1;
+                Face = PlayerPrefs.GetInt(faceKey) == 1;
+                BlendShape = PlayerPrefs.GetInt(blendshapeKey) == 1;
+                Slam = PlayerPrefs.GetInt(slamKey) == 1;
+
+                colorScaleIndex = PlayerPrefs.GetInt(colorScaleIndexKey);
+                colorSkip = PlayerPrefs.GetInt(colorSkipKey);
+            }
+        }
+
+        override protected void Start()
+        {
+            context = SynchronizationContext.Current;
 
             fontColor = txt.color;
             fontSize = txt.fontSize;
@@ -178,6 +213,11 @@ namespace TofArSamples.Recorder
             dialogPanel.okAction = DeleteRecord;
 
             savePath = Application.persistentDataPath + "/" + folderName + "/";
+            if (!Directory.Exists(savePath))
+            {
+                Directory.CreateDirectory(savePath);
+            }
+            lastSavePath = savePath;
             print("Save Path: " + savePath);
 
             UpdateRecorders();
@@ -210,6 +250,43 @@ namespace TofArSamples.Recorder
                     panel.SetActive(false);
                 }
             }
+        }
+
+        private readonly string saveTimeKey = "recorder_save_time";
+        private readonly string timerKey = "recorder_timer";
+        private readonly string recordModeKey = "recorder_record_mode";
+        private readonly string saveTypeKey = "recorder_save_type";
+
+        private readonly string depthKey = "recorder_depth";
+        private readonly string colorKey = "recorder_color";
+        private readonly string handKey = "recorder_hand";
+        private readonly string bodyKey = "recorder_body";
+        private readonly string faceKey = "recorder_face";
+        private readonly string blendshapeKey = "recorder_blendshape";
+        private readonly string slamKey = "recorder_slam";
+
+        private readonly string colorScaleIndexKey = "recorder_color_scale_index";
+        private readonly string colorSkipKey = "recorder_color_skip";
+        public void SavePrefs()
+        {
+            PlayerPrefs.SetString(saveTimeKey, DateTime.Now.ToString("yyyyMMdd-HHmmssfff"));
+
+            PlayerPrefs.SetInt(timerKey, timer);
+            PlayerPrefs.SetInt(recordModeKey, (int)recordMode);
+            PlayerPrefs.SetInt(saveTypeKey, (int)saveType);
+
+            PlayerPrefs.SetInt(depthKey, Depth ? 1 : 0);
+            PlayerPrefs.SetInt(colorKey, Color ? 1 : 0);
+            PlayerPrefs.SetInt(handKey, Hand ? 1 : 0);
+            PlayerPrefs.SetInt(bodyKey, Body ? 1 : 0);
+            PlayerPrefs.SetInt(faceKey, Face ? 1 : 0);
+            PlayerPrefs.SetInt(blendshapeKey, BlendShape ? 1 : 0);
+            PlayerPrefs.SetInt(slamKey, Slam ? 1 : 0);
+
+            PlayerPrefs.SetInt(colorScaleIndexKey, colorScaleIndex);
+            PlayerPrefs.SetInt(colorSkipKey, colorSkip);
+            
+            PlayerPrefs.Save();
         }
 
 
@@ -318,6 +395,8 @@ namespace TofArSamples.Recorder
             if (Directory.Exists(savePath))
             {
                 Directory.Delete(savePath, true);
+                Directory.CreateDirectory(savePath);
+                lastSavePath = savePath;
             }
 
             ShowMessage("Delete all data.");
@@ -334,6 +413,18 @@ namespace TofArSamples.Recorder
             var csvCount = 0;
             var binaryCount = 0;
 
+            var targetPath = savePath;
+
+            // For save per component
+            if (SaveType == SaveType.Timestamp)
+            {
+                targetPath = savePath + DateTime.Now.ToString("yyyyMMdd-HHmmssfff") + "/";
+                if (!Directory.Exists(targetPath))
+                {
+                    Directory.CreateDirectory(targetPath);
+                }
+            }
+
             foreach (var recorder in recorders)
             {
                 if (!recorder.Record) { continue; }
@@ -342,7 +433,7 @@ namespace TofArSamples.Recorder
                 if (recorder is CsvRecorder)
                 {
                     var csvRecorder = recorder as CsvRecorder;
-                    var path = savePath + csvRecorder.FileName;
+                    var path = targetPath + csvRecorder.FileName;
                     if (!File.Exists(path))
                     {
                         File.AppendAllText(path, csvRecorder.Header + "\n");
@@ -357,7 +448,7 @@ namespace TofArSamples.Recorder
                 else if (recorder is BinaryRecorder)
                 {
                     var binaryRecorder = recorder as BinaryRecorder;
-                    var path = savePath + binaryRecorder.FolderName;
+                    var path = targetPath + binaryRecorder.FolderName;
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path);
@@ -374,6 +465,8 @@ namespace TofArSamples.Recorder
                     binaryRecorder.ClearData();
                 }
             }
+            lastSavePath = targetPath;
+            
 
             if (recordMode == RecordMode.Single)
             {
@@ -437,6 +530,22 @@ namespace TofArSamples.Recorder
                     recorder.Record = onOff;
                 }
             }
+
+            SavePrefs();
+        }
+
+    #if UNITY_IOS && !UNITY_EDITOR
+        [DllImport("__Internal")]
+        private static extern void OpenFileAppWith(string path);
+    #endif
+
+        public void OpenFileApp()
+        {
+    #if UNITY_IOS && !UNITY_EDITOR
+            OpenFileAppWith(lastSavePath);
+    #else
+            Debug.Log("This function is only available on iOS.");
+    #endif
         }
     }
 }

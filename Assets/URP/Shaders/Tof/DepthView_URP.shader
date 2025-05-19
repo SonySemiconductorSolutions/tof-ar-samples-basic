@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -25,7 +25,7 @@ Shader "TofAr/Tof/DepthViewShader_URP"
             #pragma fragment frag
             
             #include "UnityCG.cginc"
-
+			#include_with_pragmas "Assets/TofAr/TofAr/V0/Shaders/TofArCommon.hlsl"
 
 
             struct appdata
@@ -43,6 +43,7 @@ Shader "TofAr/Tof/DepthViewShader_URP"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float _DistanceMultiplier;
+            int _isLinearColorSpace;
             
             v2f vert (appdata v)
             {
@@ -101,6 +102,8 @@ Shader "TofAr/Tof/DepthViewShader_URP"
                 if (idx > 5) return fixed4(1, 1, 1, 1);
 
                 col = applyColorMap(colScaleD, idx);
+
+                col = toGamma(col, _isLinearColorSpace);
 
                 return col;
             }

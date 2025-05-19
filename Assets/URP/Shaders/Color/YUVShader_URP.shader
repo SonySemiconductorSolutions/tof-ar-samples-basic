@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -9,8 +9,8 @@ Shader "TofAr/Color/YUVShader_URP"
 {
     Properties
     {
-        _YTex ("Y Texture", 2D) = "Black" {}
-        _UVTex ("UV Texture", 2D) = "Black" {}
+        _YTex ("Y Texture", 2D) = "black" {}
+        _UVTex ("UV Texture", 2D) = "black" {}
         //_paddingCutOff ("Texture padding cutoff", float) = 0.0
     }
     SubShader
@@ -26,6 +26,7 @@ Shader "TofAr/Color/YUVShader_URP"
             #pragma fragment frag
             
             #include "UnityCG.cginc"
+			#include_with_pragmas "Assets/TofAr/TofAr/V0/Shaders/TofArCommon.hlsl"
 
             struct appdata
             {
@@ -43,6 +44,7 @@ Shader "TofAr/Color/YUVShader_URP"
             float4 _YTex_ST;
             sampler2D _UVTex;
             float _YUVShader_paddingCutOff;
+            int _isLinearColorSpace;
             
             v2f vert (appdata v)
             {
@@ -74,6 +76,9 @@ Shader "TofAr/Color/YUVShader_URP"
                 fixed4 col = fixed4(rgb.r, rgb.g, rgb.b, 1.0f);
 
                 UNITY_APPLY_FOG(i.fogCoord, col);
+
+                col = toGamma(col, _isLinearColorSpace);
+
                 return col;
             }
             ENDCG

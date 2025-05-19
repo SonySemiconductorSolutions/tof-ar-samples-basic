@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -25,8 +25,11 @@ namespace TofArSamples.Recorder
         UI.ToolButton stopButton;
         [SerializeField]
         private UnityEngine.UI.Slider byteSizeSlider;
+        [SerializeField]
+        UI.ToolButton folderButton;
 
         UI.ItemDropdown recodeMode;
+        UI.ItemDropdown saveType;
 
         UI.ItemToggle hand;
         UI.ItemToggle body;
@@ -62,6 +65,7 @@ namespace TofArSamples.Recorder
 
             startButton.OnClick += OnClickStart;
             stopButton.OnClick += OnClickStart;
+            folderButton.OnClick += OnClickFolder;
 
             byteSizeSlider.minValue = 0;
             byteSizeSlider.maxValue = dataCtrl.MaxByteSize;
@@ -78,11 +82,19 @@ namespace TofArSamples.Recorder
             settings.AddItem("Timer", 0, 10, 1, dataCtrl.timer, (float value) =>
             {
                 dataCtrl.timer = (int)value;
+                dataCtrl.SavePrefs();
             });
 
             recodeMode = settings.AddItem("Record Mode", Enum.GetNames(typeof(RecordMode)).ToArray(), (int)dataCtrl.recordMode, (int index) =>
             {
                 dataCtrl.recordMode = (RecordMode)index;
+                dataCtrl.SavePrefs();
+            });
+
+            saveType = settings.AddItem("Save Type", Enum.GetNames(typeof(SaveType)).ToArray(), (int)dataCtrl.SaveType, (int index) => 
+            {
+                dataCtrl.SaveType = (SaveType)index;
+                dataCtrl.SavePrefs();
             });
 
 
@@ -111,6 +123,12 @@ namespace TofArSamples.Recorder
 
                 dataCtrl.StopRecord();
             }
+        }
+
+        private void OnClickFolder(bool onOff)
+        {
+            folderButton.OnOff = false;
+            dataCtrl.OpenFileApp();
         }
 
 

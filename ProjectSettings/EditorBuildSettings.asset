@@ -65,4 +65,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/TofArSamplesBasic/SamplesBasic/Recorder/Recorder.unity
     guid: 99eebd8a4816a4cd195ddff4450e7761
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: cd67ac547a1bb4d69a7fc367795d8ad8, type: 3}

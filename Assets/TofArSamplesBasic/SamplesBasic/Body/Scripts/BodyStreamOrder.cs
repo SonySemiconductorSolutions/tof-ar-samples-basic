@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -13,6 +13,7 @@ namespace TofArSamples.Body
 {
     public class BodyStreamOrder : MonoBehaviour
     {
+        public bool enableStartStream = true;
         private BodyManagerController bodyManagerController;
 
         protected void Awake()
@@ -34,7 +35,10 @@ namespace TofArSamples.Body
 
         private void OnStreamStarted(object sender, Texture2D depthTexture, Texture2D confidenceTexture, PointCloudData pointCloudData)
         {
-            bodyManagerController.OnStreamStarted(sender, depthTexture, confidenceTexture, pointCloudData);
+            if (this.enableStartStream)
+            {
+                bodyManagerController.OnStreamStarted(sender, depthTexture, confidenceTexture, pointCloudData);
+            }
         }
 
         private void OnStreamStopped(object sender)

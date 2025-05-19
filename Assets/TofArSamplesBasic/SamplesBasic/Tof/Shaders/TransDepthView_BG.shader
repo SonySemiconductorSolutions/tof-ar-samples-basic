@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -27,6 +27,7 @@ Shader "TofAr/Tof/TransDepthViewShader_BG"
 			#pragma fragment frag
 			
 			#include "UnityCG.cginc"
+			#include_with_pragmas "Assets/TofAr/TofAr/V0/Shaders/TofArCommon.hlsl"
 
 			struct appdata
 			{
@@ -43,6 +44,7 @@ Shader "TofAr/Tof/TransDepthViewShader_BG"
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float _DistanceMultiplier;
+			int _isLinearColorSpace;
 			
 			v2f vert (appdata v)
 			{
@@ -103,6 +105,8 @@ Shader "TofAr/Tof/TransDepthViewShader_BG"
 				if (idx > 5) return fixed4(1, 1, 1, _Alpha);
 
 				col = applyColorMap(colScaleD, idx);
+
+				col = toGamma(col, _isLinearColorSpace);
 
 				return col;
 			}

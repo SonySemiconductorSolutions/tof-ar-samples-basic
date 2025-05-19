@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -27,6 +27,8 @@ Shader "TofAr/ColoredPointCloudMesh_YUV"
         #pragma fragment frag
 
         #include "UnityCG.cginc"
+		#include_with_pragmas "Assets/TofAr/TofAr/V0/Shaders/TofArCommon.hlsl"
+
         float _ClippingDistance;
 
         struct appdata
@@ -48,7 +50,7 @@ Shader "TofAr/ColoredPointCloudMesh_YUV"
         sampler2D _UVTex;
         float _YUVShader_paddingCutOff;
         float _PointSize;
-        
+        int _isLinearColorSpace;
 
         v2f vert(appdata v)
         {
@@ -80,8 +82,12 @@ Shader "TofAr/ColoredPointCloudMesh_YUV"
             float u = UV.b * (15.0f * 16.0f / 255.0f) + UV.a * (16.0f / 255.0f);
 
             float3 rgb = mul(yuv2rgb, float3(y, u - 0.5f, v - 0.5f));
+           
             fixed4 col = fixed4(rgb.r, rgb.g, rgb.b, 1.0f);
             clip(i.clip);
+
+            col = toGamma(col, _isLinearColorSpace);
+
             return col;
         }
         ENDCG

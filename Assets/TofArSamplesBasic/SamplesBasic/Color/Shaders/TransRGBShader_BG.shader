@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -29,6 +29,8 @@ Shader "TofAr/Color/TransRGBShader_BG"
 			#pragma multi_compile_fog
 			
 			#include "UnityCG.cginc"
+			#include_with_pragmas "Assets/TofAr/TofAr/V0/Shaders/TofArCommon.hlsl"
+
 
 			struct appdata
 			{
@@ -46,6 +48,7 @@ Shader "TofAr/Color/TransRGBShader_BG"
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float _Alpha;
+			int _isLinearColorSpace;
 			
 			v2f vert (appdata v)
 			{
@@ -64,6 +67,9 @@ Shader "TofAr/Color/TransRGBShader_BG"
 				col.a = _Alpha;
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, col);
+
+				col = toGamma(col, _isLinearColorSpace);
+
 				return col;
 			}
 			ENDCG

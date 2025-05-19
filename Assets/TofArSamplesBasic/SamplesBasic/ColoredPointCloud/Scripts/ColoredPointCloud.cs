@@ -1,17 +1,16 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
-using UnityEngine;
-using TofAr.V0.Color;
-using TofAr.V0.Tof;
-using TofAr.V0;
-using TofAr.V0.Coordinate;
-using Unity.Collections;
 using System.Threading;
+using TofAr.V0.Color;
+using TofAr.V0.Coordinate;
+using TofAr.V0.Tof;
+using Unity.Collections;
+using UnityEngine;
 
 
 namespace TofArSamples.ColoredPointCloud
@@ -93,7 +92,7 @@ namespace TofArSamples.ColoredPointCloud
                                 return;
                             }
                         }
-                        
+
                     }
                 }
                 lock (meshLock)
@@ -122,7 +121,7 @@ namespace TofArSamples.ColoredPointCloud
                             }
                         }
                     }
-                    
+
                     if (meshUVs.Length == mesh.vertexCount)
                     {
                         mesh.SetUVs(0, meshUVs);
@@ -151,6 +150,7 @@ namespace TofArSamples.ColoredPointCloud
                     meshRenderer.material = rgbTextureMaterial;
                     break;
             }
+            meshRenderer.material.SetInt("_isLinearColorSpace", (QualitySettings.activeColorSpace == ColorSpace.Linear) ? 1 : 0);
         }
 
         private void SetMeshRenderer(bool state)

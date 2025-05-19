@@ -1,7 +1,7 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022,2023 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
@@ -73,7 +73,7 @@ namespace TofArSettings.Color
                 MakeUICapturePhoto
             };
 
-            mgrCtrl = FindObjectOfType<ColorManagerController>();
+            mgrCtrl = FindAnyObjectByType<ColorManagerController>();
 
             formatCtrl = mgrCtrl.GetComponent<ColorFormatController>();
             controllers.Add(formatCtrl);
@@ -499,7 +499,7 @@ namespace TofArSettings.Color
 
         private void OnColorStreamStopped(object sender)
         {
-            if (TofArManager.Instance.UsingIos)
+            if (TofArManager.Instance?.UsingIos == true)
             {
                 SetInteractableUICapturePhoto(false);
             }

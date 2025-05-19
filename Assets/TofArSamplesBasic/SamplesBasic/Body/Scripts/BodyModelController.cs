@@ -1,14 +1,13 @@
 ﻿/*
  * SPDX-License-Identifier: (Apache-2.0 OR GPL-2.0-only)
  *
- * Copyright 2022 Sony Semiconductor Solutions Corporation.
+ * Copyright 2022,2023,2024 Sony Semiconductor Solutions Corporation.
  *
  */
 
+using System.Linq;
 using TofAr.V0.Body;
 using UnityEngine;
-using System.Linq;
-using TofArSettings;
 
 namespace TofArSamples.Body
 {
@@ -106,7 +105,7 @@ namespace TofArSamples.Body
                 if (reorientSocket != null && reorientSocket.enabled && reorientSocket.enableRotateInWorld && bodyModels[i].transform.IsChildOf(reorientSocket.transform))
                 {
 
-                    int screenOrientation = TofAr.V0.TofArManager.Instance.GetScreenOrientation();
+                    int screenOrientation = TofAr.V0.TofArManager.Instance?.GetScreenOrientation() ?? 0;
 
                     switch (screenOrientation)
                     {
