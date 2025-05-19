@@ -92,3 +92,6 @@ Stdout.log
 StdoutEditor.log
 tofar_log_settings
 Assets/StreamingAssets.meta
+Log/OrbbecSDK.log.txt
+/.vscode
+/.utmp
